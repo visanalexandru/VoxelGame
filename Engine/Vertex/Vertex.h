@@ -1,0 +1,83 @@
+#ifndef VERTEX_H
+#define VERTEX_H
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+#include"../Graphics/GraphicsUtil.h"
+typedef std::uint8_t byte;
+struct simple_vertex
+{
+    glm::vec3 position;
+    simple_vertex(glm::vec3 pos)
+    {
+        position=pos;
+    }
+    simple_vertex()
+    {
+        position=glm::vec3(0,0,0);
+    }
+    static void enable_attributes()
+    {
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(simple_vertex), (const GLvoid*)offsetof(simple_vertex, position));
+        glEnableVertexAttribArray(0);
+    }
+    glm::vec3 get_position()
+    {
+        return position;
+    }
+};
+struct texture_vertex
+{
+    glm::vec3 position;
+    glm::vec2 uv;
+    texture_vertex(glm::vec3 pos,glm::vec2 newuv)
+    {
+        position=pos;
+        uv=newuv;
+    }
+    texture_vertex()
+    {
+        position=glm::vec3(0,0,0);
+        uv=glm::vec2(0,0);
+    }
+    static void enable_attributes()
+    {
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(texture_vertex), (const GLvoid*)offsetof(texture_vertex, position));
+        glEnableVertexAttribArray(0);
+        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(texture_vertex), (const GLvoid*)offsetof(texture_vertex, uv));
+        glEnableVertexAttribArray(1);
+    }
+    glm::vec3 get_position()
+    {
+        return position;
+    }
+};
+struct byte_vertex
+{
+    byte position[3];
+    byte uv[2];
+    byte_vertex(glm::vec3 pos,glm::vec2 newuv)
+    {
+        position[0]=pos.x;
+        position[1]=pos.y;
+        position[2]=pos.z;
+        uv[0]=newuv.x;
+        uv[1]=newuv.y;
+    }
+    byte_vertex():position{0},uv{0}
+    {
+
+    }
+    static void enable_attributes()
+    {
+        glVertexAttribPointer(0, 3, GL_BYTE, GL_FALSE, sizeof(byte_vertex), (const GLvoid*)offsetof(byte_vertex, position));
+        glEnableVertexAttribArray(0);
+        glVertexAttribPointer(1, 2, GL_BYTE, GL_FALSE, sizeof(byte_vertex), (const GLvoid*)offsetof(byte_vertex, uv));
+        glEnableVertexAttribArray(1);
+    }
+    glm::vec3 get_position()
+    {
+        return glm::vec3(position[0],position[1],position[2]);
+    }
+};
+#endif
