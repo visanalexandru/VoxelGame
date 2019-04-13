@@ -49,6 +49,7 @@ private:
     std::thread* worker;
     void start_thread();
     void stop_thread();
+    const int tick_time_ms;
 
 };
 

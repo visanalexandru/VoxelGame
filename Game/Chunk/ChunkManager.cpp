@@ -3,7 +3,8 @@
 ChunkManager::ChunkManager(const ShaderProgram&chunk_sh,const Texture2d&chunk_t,Camera&player_cam,int v_range):chunk_shader(chunk_sh),
     chunk_texture(chunk_t),
     scene(chunk_t,chunk_sh),
-    player_camera(player_cam)
+    player_camera(player_cam),
+    tick_time_ms(20)
 {
     //ctor
     view_range=v_range;
@@ -19,10 +20,16 @@ glm::vec3 ChunkManager::offsets[4]
 };
 void ChunkManager::tick()
 {
+    float time,diff;
     while(is_alive)
     {
+        float a=glfwGetTime();
+        time=glfwGetTime();
         spawn_closest_chunk();
         Update_chunks();
+        diff =tick_time_ms-((float)glfwGetTime() - time)*1000;
+        if(diff>0)
+            std::this_thread::sleep_for(std::chrono::milliseconds((int)diff));
     }
 }
 void ChunkManager::start_thread()
