@@ -20,14 +20,14 @@ glm::vec3 ChunkManager::offsets[4]
 };
 void ChunkManager::tick()
 {
-    float time,diff;
+    double time,diff,aux;
     while(is_alive)
     {
-        float a=glfwGetTime();
         time=glfwGetTime();
         spawn_closest_chunk();
         Update_chunks();
-        diff =tick_time_ms-((float)glfwGetTime() - time)*1000;
+        aux=max(((double)glfwGetTime() - time),0.0);//it might be negative if the opengl context has been destroyed
+        diff =tick_time_ms-aux*1000;
         if(diff>0)
             std::this_thread::sleep_for(std::chrono::milliseconds((int)diff));
     }
