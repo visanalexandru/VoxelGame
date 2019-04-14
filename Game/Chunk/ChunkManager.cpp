@@ -46,16 +46,7 @@ void ChunkManager::stop_thread()
 }
 void ChunkManager::Update_chunk(Chunk*chunk)
 {
-    glm::vec3 pos=chunk->get_position(),p1,p2,p3,p4;
-    p1=pos+offsets[0];
-    p2=pos+offsets[1];
-    p3=pos+offsets[2];
-    p4=pos+offsets[3];
-    if(get_neighbours_number(chunk)==4)
-    {
-        chunk->create_mesh_data(get_chunk_at(p1),get_chunk_at(p2),get_chunk_at(p3),get_chunk_at(p4));
-    }
-
+    chunk->create_mesh_data();
 }
 string ChunkManager::get_string(glm::vec3 pos)
 {
@@ -86,7 +77,9 @@ void ChunkManager::Update_chunks()
 }
 Chunk*ChunkManager::get_chunk_at(glm::vec3 pos)
 {
-    return chunk_map[get_string(pos)];
+    if(does_chunk_exists_at(pos))
+        return chunk_map[get_string(pos)];
+    return NULL;
 
 }
 int ChunkManager::get_neighbours_number(Chunk*chunk)
@@ -196,9 +189,13 @@ bool ChunkManager::does_chunk_exists_at(glm::vec3 position)
 }
 void ChunkManager::spawn_chunk(glm::vec3 position)
 {
-    Chunk* to_add=new Chunk(position,chunk_shader,chunk_texture);
+    Chunk*n[4];
+    for(int i=0; i<4; i++)
+        n[i]=get_chunk_at(position+offsets[i]);
+    Chunk* to_add=new Chunk(position,chunk_shader,chunk_texture,n);
     chunk_map[get_string(position)]=to_add;
     lock();
+    to_add->update_neighbours();
     chunks.push_back(to_add);
     unlock();
 }
