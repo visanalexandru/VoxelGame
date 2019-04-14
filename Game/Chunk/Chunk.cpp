@@ -11,7 +11,7 @@ glm::vec3 Chunk::offsets[6]
 Chunk::Chunk(glm::vec3 pos,const ShaderProgram&pr,const Texture2d&te):Drawable3d(pos,pr,te),generator(pos,0,p)
 {
     //ctor
-    needs_to_update=false;
+    needs_to_update=true;
     needs_to_assign_mesh=false;
     generator.generate_3d_heigthmap(data);
 }
@@ -23,16 +23,6 @@ bool Chunk::is_inside(int x,int y,int z)
 bool Chunk::does_need_to_assign_mesh()
 {
     return needs_to_assign_mesh;
-}
-void Chunk::set_update(bool x)
-{
-    needs_to_update=x;
-
-}
-void Chunk::set_mesh_update(bool x)
-{
-    needs_to_assign_mesh=x;
-
 }
 bool Chunk::does_need_to_upate_chunk()
 {
@@ -86,6 +76,11 @@ void Chunk::add_faces_at(int x,int y,int z)
             }
         }
 }
+void Chunk::set_block_at(int x,int y,int z,BlockId to_set)
+{
+    data.set_value_at(x,y,x,to_set);
+
+}
 void Chunk::create_mesh_data(Chunk*c1,Chunk*c2,Chunk*c3,Chunk*c4)
 {
     neighbours[0]=c1;
@@ -104,10 +99,13 @@ void Chunk::create_mesh_data(Chunk*c1,Chunk*c2,Chunk*c3,Chunk*c4)
         }
 
     }
+    needs_to_update=false;
+    needs_to_assign_mesh=true;
 }
 void Chunk::assign_mesh_data()
 {
     set_mesh_data(meshdata);
+    needs_to_assign_mesh=false;
 }
 Chunk::~Chunk()
 {

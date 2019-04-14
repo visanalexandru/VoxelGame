@@ -14,8 +14,7 @@ public:
     void create_mesh_data(Chunk*c1,Chunk*c2,Chunk*c3,Chunk*c4);
     void assign_mesh_data();
     BlockId get_block_at(int x,int y,int z);
-    void set_update(bool x);
-    void set_mesh_update(bool x);
+    void set_block_at(int x,int y,int z,BlockId to_set);
     bool does_need_to_upate_chunk();
     bool does_need_to_assign_mesh();
 protected:

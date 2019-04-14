@@ -54,8 +54,6 @@ void ChunkManager::Update_chunk(Chunk*chunk)
     if(get_neighbours_number(chunk)==4)
     {
         chunk->create_mesh_data(get_chunk_at(p1),get_chunk_at(p2),get_chunk_at(p3),get_chunk_at(p4));
-        chunk->set_update(false);
-        chunk->set_mesh_update(true);
     }
 
 }
@@ -177,7 +175,6 @@ void ChunkManager::create_meshes()
         if(chunks[i]->does_need_to_assign_mesh())
         {
             chunks[i]->assign_mesh_data();
-            chunks[i]->set_mesh_update(false);
         }
     }
     unlock();
@@ -200,7 +197,6 @@ bool ChunkManager::does_chunk_exists_at(glm::vec3 position)
 void ChunkManager::spawn_chunk(glm::vec3 position)
 {
     Chunk* to_add=new Chunk(position,chunk_shader,chunk_texture);
-    to_add->set_update(true);
     chunk_map[get_string(position)]=to_add;
     lock();
     chunks.push_back(to_add);
