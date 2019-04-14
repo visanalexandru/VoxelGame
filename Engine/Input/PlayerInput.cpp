@@ -1,8 +1,10 @@
 #include "PlayerInput.h"
 
-PlayerInput::PlayerInput(GLFWwindow*context,Camera&player_camera_in):player_camera(player_camera_in)
+PlayerInput::PlayerInput(GLFWwindow*context,Camera&player_camera_in,ChunkManager&world):player_camera(player_camera_in),
+    chunk_manager(world)
 {
     //ctor
+    last_time_pressed_mouse1=glfwGetTime();
     context_window=context;
     last_time=glfwGetTime();
     glfwGetCursorPos(context,&lastX,&lastY);
@@ -13,6 +15,7 @@ void PlayerInput::process_input()
     GraphicsUtil::poll_events();
     check_for_exit();
     move_camera();
+    game_input();
     rotate_camera();
     update_camera_frustum();
 }
@@ -53,6 +56,43 @@ void PlayerInput::check_callbacks()
     if(glfwGetKey(context_window,GLFW_KEY_2)==GLFW_PRESS)
         glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
+}
+void PlayerInput::game_input()
+{
+
+    bool left_click = glfwGetMouseButton(context_window, GLFW_MOUSE_BUTTON_LEFT);
+//   bool right_click = glfwGetMouseButton(context_window, GLFW_MOUSE_BUTTON_RIGHT);
+    if(left_click)
+    {
+        if(glfwGetTime()-last_time_pressed_mouse1>=block_break_cooldown)
+        {
+            raycast_break();
+            last_time_pressed_mouse1=glfwGetTime();
+        }
+    }
+
+
+}
+void PlayerInput::raycast_break()
+{
+    const float step=0.05f;
+    Ray ray(player_camera.get_position(),player_camera.cameraFront);
+    glm::vec3 pos,fixed,offset;
+    for(float i=0; i<10; i+=step)
+    {
+        pos=ray.step_forward(i);
+        fixed=chunk_manager.get_chunk_relative_position(pos);
+        offset=pos-fixed;
+        if(chunk_manager.does_chunk_exists_at(fixed))
+        {
+            Chunk*hit=chunk_manager.get_chunk_at(fixed);
+            if(hit->get_block_at(offset.x,offset.y,offset.z)!=BlockId::Air_block)
+            {
+                hit->set_block_at(offset.x,offset.y,offset.z,BlockId::Air_block);
+                break;
+            }
+        }
+    }
 }
 void PlayerInput::move_camera()
 {

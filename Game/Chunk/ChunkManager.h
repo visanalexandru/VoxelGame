@@ -19,7 +19,9 @@ public:
     void lock();
     void unlock();
     void destroy_chunks_out_of_range();
-
+    bool does_chunk_exists_at(glm::vec3 position);
+    Chunk* get_chunk_at(glm::vec3 pos);
+    glm::vec3 get_chunk_relative_position(glm::vec3 position);
 
 protected:
 
@@ -30,14 +32,12 @@ private:
     bool is_alive;
     void tick();
     void Update_chunk(Chunk*chunk);
-    Chunk* get_chunk_at(glm::vec3 pos);
     int get_neighbours_number(Chunk*chunk);
     void delete_all_chunks();
     bool is_position_too_far(glm::vec3 position);
     void spawn_chunk(glm::vec3 position);
-    bool does_chunk_exists_at(glm::vec3 position);
+
     int view_range;
-    glm::vec3 get_chunk_relative_position(glm::vec3 position);
     const ShaderProgram&chunk_shader;
     const Texture2d&chunk_texture;
     unordered_map<string,Chunk*>chunk_map;

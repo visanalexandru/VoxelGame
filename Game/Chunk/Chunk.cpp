@@ -78,7 +78,8 @@ void Chunk::add_faces_at(int x,int y,int z)
 }
 void Chunk::set_block_at(int x,int y,int z,BlockId to_set)
 {
-    data.set_value_at(x,y,x,to_set);
+    data.set_value_at(x,y,z,to_set);
+    needs_to_update=true;
 
 }
 void Chunk::create_mesh_data(Chunk*c1,Chunk*c2,Chunk*c3,Chunk*c4)

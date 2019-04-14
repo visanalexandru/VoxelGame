@@ -44,10 +44,9 @@ int main()
     Texture2d&basic_texture=manager.get_texture("test3");
     Skybox sky(skybox_prog,manager.get_cubemap("test4"));
     Camera camera(glm::vec3(0,40,0),parsed.Get_parsed());
-    PlayerInput input_processer(window,camera);
-    NoiseParameters a(8,1.f,2.f,0.5f,1,100.f);
     Renderer renderer(window,camera);
     ChunkManager chunk_manager(basic_prog,basic_texture,camera,15);
+    PlayerInput input_processer(window,camera,chunk_manager);
     while(!glfwWindowShouldClose(window))
     {
         float a=glfwGetTime();
