@@ -43,7 +43,7 @@ int main()
     ShaderProgram& skybox_prog=manager.get_shader_program("skybox_shader");
     Texture2d&basic_texture=manager.get_texture("test3");
     Skybox sky(skybox_prog,manager.get_cubemap("test4"));
-    Camera camera(glm::vec3(0,0,0),parsed.Get_parsed());
+    Camera camera(glm::vec3(0,40,0),parsed.Get_parsed());
     PlayerInput input_processer(window,camera);
     NoiseParameters a(8,1.f,2.f,0.5f,1,100.f);
     Renderer renderer(window,camera);

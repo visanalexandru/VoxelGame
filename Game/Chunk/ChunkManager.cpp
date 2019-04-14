@@ -61,7 +61,8 @@ void ChunkManager::Update_chunk(Chunk*chunk)
 }
 string ChunkManager::get_string(glm::vec3 pos)
 {
-    string a=to_string(pos.x)+" "+to_string(pos.z);
+    int x=pos.x,z=pos.z;
+    string a=to_string(x)+" "+to_string(z);
     return a;
 }
 bool ChunkManager::is_position_too_far(glm::vec3 position)
