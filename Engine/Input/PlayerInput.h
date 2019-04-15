@@ -17,10 +17,13 @@ protected:
 
 private:
     const float block_break_cooldown=0.5f;
+    const float ray_step=0.05f;
     float last_time_pressed_mouse1;
+    float last_time_pressed_mouse2;
     ChunkManager&chunk_manager;
     void game_input();
     void raycast_break();
+    void raycast_place();
     void check_callbacks();
     float sensitivity;
     double lastX;

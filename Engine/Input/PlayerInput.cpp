@@ -5,6 +5,7 @@ PlayerInput::PlayerInput(GLFWwindow*context,Camera&player_camera_in,ChunkManager
 {
     //ctor
     last_time_pressed_mouse1=glfwGetTime();
+    last_time_pressed_mouse2=glfwGetTime();
     context_window=context;
     last_time=glfwGetTime();
     glfwGetCursorPos(context,&lastX,&lastY);
@@ -59,9 +60,8 @@ void PlayerInput::check_callbacks()
 }
 void PlayerInput::game_input()
 {
-
     bool left_click = glfwGetMouseButton(context_window, GLFW_MOUSE_BUTTON_LEFT);
-//   bool right_click = glfwGetMouseButton(context_window, GLFW_MOUSE_BUTTON_RIGHT);
+    bool right_click = glfwGetMouseButton(context_window, GLFW_MOUSE_BUTTON_RIGHT);
     if(left_click)
     {
         if(glfwGetTime()-last_time_pressed_mouse1>=block_break_cooldown)
@@ -70,15 +70,21 @@ void PlayerInput::game_input()
             last_time_pressed_mouse1=glfwGetTime();
         }
     }
-
+    else if(right_click)
+    {
+        if(glfwGetTime()-last_time_pressed_mouse2>=block_break_cooldown)
+        {
+            raycast_place();
+            last_time_pressed_mouse2=glfwGetTime();
+        }
+    }
 
 }
 void PlayerInput::raycast_break()
 {
-    const float step=0.05f;
     Ray ray(player_camera.get_position(),player_camera.cameraFront);
     glm::vec3 pos,fixed,offset;
-    for(float i=0; i<10; i+=step)
+    for(float i=0; i<10; i+=ray_step)
     {
         pos=ray.step_forward(i);
         fixed=chunk_manager.get_chunk_relative_position(pos);
@@ -92,6 +98,32 @@ void PlayerInput::raycast_break()
                 break;
             }
         }
+    }
+}
+void PlayerInput::raycast_place()
+{
+    Ray ray(player_camera.get_position(),player_camera.cameraFront);
+    glm::vec3 pos,fixed,offset,last_position;
+    Chunk*last_chunk=NULL;
+    for(float i=0; i<10; i+=ray_step)
+    {
+        pos=ray.step_forward(i);
+        fixed=chunk_manager.get_chunk_relative_position(pos);
+        offset=pos-fixed;
+        if(chunk_manager.does_chunk_exists_at(fixed) && offset.y>=0 && offset.y<255)
+        {
+            Chunk*hit=chunk_manager.get_chunk_at(fixed);
+            if(hit->get_block_at(offset.x,offset.y,offset.z)!=BlockId::Air_block)
+            {
+                if(last_position.y>=0 && last_position.y<255 &&last_chunk)
+                {
+                    last_chunk->set_block_at(last_position.x,last_position.y,last_position.z,BlockId::Dirt_block);
+                }
+                break;
+            }
+            last_chunk=hit;
+        }
+        last_position=offset;
     }
 }
 void PlayerInput::move_camera()
