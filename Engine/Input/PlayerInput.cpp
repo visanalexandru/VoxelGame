@@ -83,7 +83,7 @@ void PlayerInput::raycast_break()
         pos=ray.step_forward(i);
         fixed=chunk_manager.get_chunk_relative_position(pos);
         offset=pos-fixed;
-        if(chunk_manager.does_chunk_exists_at(fixed))
+        if(chunk_manager.does_chunk_exists_at(fixed) && offset.y>=0 && offset.y<255)
         {
             Chunk*hit=chunk_manager.get_chunk_at(fixed);
             if(hit->get_block_at(offset.x,offset.y,offset.z)!=BlockId::Air_block)

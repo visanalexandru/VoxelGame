@@ -32,11 +32,9 @@ private:
     bool is_alive;
     void tick();
     void Update_chunk(Chunk*chunk);
-    int get_neighbours_number(Chunk*chunk);
     void delete_all_chunks();
     bool is_position_too_far(glm::vec3 position);
     void spawn_chunk(glm::vec3 position);
-
     int view_range;
     const ShaderProgram&chunk_shader;
     const Texture2d&chunk_texture;
