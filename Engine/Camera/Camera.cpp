@@ -5,7 +5,7 @@ Camera::Camera(glm::vec3 newpos, window_camera_properties prop):Transformable(ne
     //ctor
     camera_fov=prop.get_fov();
     update_projection_matrix(prop.get_width(),prop.get_height());
-    orto_matrix=makeOrtographicMatrix(prop.get_width(),prop.get_height());
+    update_orto_matrix(prop.get_width(),prop.get_height());
     cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
     cameraUp    = glm::vec3(0.0f, 1.0f,  0.0f);
     camera_speed=10.f;
@@ -34,6 +34,11 @@ void Camera::Update_frustum()
 bool Camera::can_see(const AABB&box)
 {
     return frustum.boxInFrustum(box);
+}
+void Camera::update_orto_matrix(int width,int height)
+{
+    orto_matrix=makeOrtographicMatrix(width,height);
+
 }
 void Camera::Update_front_vector()
 {

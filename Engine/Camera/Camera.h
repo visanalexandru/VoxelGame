@@ -21,6 +21,7 @@ public:
     void Update_frustum();
     bool can_see(const AABB&box);
     void update_projection_matrix(int width,int height);
+    void update_orto_matrix(int width,int height);
 protected:
 
 private:

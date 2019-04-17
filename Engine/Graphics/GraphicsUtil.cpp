@@ -69,6 +69,7 @@ void GraphicsUtil::framebuffer_size_callback(GLFWwindow* window, int width, int 
     if(main_camera)
     {
         main_camera->update_projection_matrix(width,height);
+        main_camera->update_orto_matrix(width,height);
     }
 }
 void GraphicsUtil::terminate_glfw()

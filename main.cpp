@@ -50,6 +50,7 @@ int main()
     Crosshair crosshair(crosshair_prog,crosshair_texture);
     Skybox sky(skybox_prog,manager.get_cubemap("test4"));
     Camera camera(glm::vec3(0,40,0),parsed.Get_parsed());
+    GraphicsUtil::set_main_camera(&camera);
     Renderer renderer(window,camera);
     ChunkManager chunk_manager(basic_prog,basic_texture,camera,15);
     PlayerInput input_processer(window,camera,chunk_manager);
