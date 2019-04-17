@@ -11,6 +11,7 @@ public:
     virtual ~Camera();
     glm::mat4 getProjectionMatrix();
     glm::mat4 getViewMatrix();
+    glm::mat4 getOrtographicMatrix();
     float camera_speed;
     glm::vec3 cameraFront;
     glm::vec3 cameraUp;
@@ -26,7 +27,9 @@ private:
     float camera_fov;
     Frustum frustum;
     glm::mat4 projection_matrix;
+    glm::mat4 orto_matrix;
     glm::mat4 makeProjectionMatrix(float fov,int width,int height);
+    glm::mat4 makeOrtographicMatrix(int width,int height);
 
 
 };

@@ -48,6 +48,16 @@ void Renderer::Render_scene(const Scene&scene)
         Render(*scene.to_draw[i]);
 
 }
+void Renderer::Render(const Drawable2d&to_draw)
+{
+    const Mesh&mesh=to_draw.Get_mesh();
+    const ShaderProgram&prog=mesh.Get_shader();
+    mesh.bind_mesh(true);
+    prog.set_mat4(to_draw.Get_position_matrix(),model);
+    prog.set_mat4(main_camera.getOrtographicMatrix(),proj);
+    glDrawElements(GL_TRIANGLES,mesh.Get_triangles_size(),GL_UNSIGNED_INT,(void*)0);
+
+}
 void Renderer::Render(const Skybox&skybox)
 {
     glDepthMask(GL_FALSE);

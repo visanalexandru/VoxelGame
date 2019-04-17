@@ -1,6 +1,7 @@
 #ifndef RENDERER_H
 #define RENDERER_H
 #include"../Drawable/Drawable3d.h"
+#include"../Drawable/Drawable2d.h"
 #include"../Skybox/Skybox.h"
 #include"../Camera/Camera.h"
 #include"../Scene/Scene.h"
@@ -10,6 +11,7 @@ public:
     Renderer(GLFWwindow*context,Camera&camera);
     void Render(const Drawable3d&to_draw);
     void Render(const Skybox&skybox);
+    void Render(const Drawable2d&to_draw);
     void Prepare_frame();
     virtual ~Renderer();
     void End_frame();

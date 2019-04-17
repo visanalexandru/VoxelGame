@@ -52,6 +52,32 @@ struct texture_vertex
         return position;
     }
 };
+struct texture_vertex_2d
+{
+    glm::vec2 position;
+    glm::vec2 uv;
+    texture_vertex_2d(glm::vec2 pos,glm::vec2 newuv)
+    {
+        position=pos;
+        uv=newuv;
+    }
+    texture_vertex_2d()
+    {
+        position=glm::vec2(0,0);
+        uv=glm::vec2(0,0);
+    }
+    static void enable_attributes()
+    {
+        glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(texture_vertex_2d), (const GLvoid*)offsetof(texture_vertex_2d, position));
+        glEnableVertexAttribArray(0);
+        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(texture_vertex_2d), (const GLvoid*)offsetof(texture_vertex_2d, uv));
+        glEnableVertexAttribArray(1);
+    }
+    glm::vec3 get_position()
+    {
+        return glm::vec3(position,0);
+    }
+};
 struct byte_vertex
 {
     byte position[3];

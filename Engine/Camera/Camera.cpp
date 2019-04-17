@@ -5,6 +5,7 @@ Camera::Camera(glm::vec3 newpos, window_camera_properties prop):Transformable(ne
     //ctor
     camera_fov=prop.get_fov();
     update_projection_matrix(prop.get_width(),prop.get_height());
+    orto_matrix=makeOrtographicMatrix(prop.get_width(),prop.get_height());
     cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
     cameraUp    = glm::vec3(0.0f, 1.0f,  0.0f);
     camera_speed=10.f;
@@ -15,7 +16,10 @@ glm::mat4 Camera::getProjectionMatrix()
 {
     return projection_matrix;
 }
-
+glm::mat4 Camera::getOrtographicMatrix()
+{
+    return orto_matrix;
+}
 glm::mat4 Camera::getViewMatrix()
 {
     glm::mat4 view(1);
@@ -50,6 +54,10 @@ void Camera::update_projection_matrix(int width,int height)
 glm::mat4 Camera::makeProjectionMatrix(float fov,int width,int height)
 {
     return glm::perspective(glm::radians(fov), (float)width / (float)height, 0.1f, 1000.0f);
+}
+glm::mat4 Camera::makeOrtographicMatrix(int width,int height)
+{
+    return glm::ortho(0.0f, (float)width, (float)height, 0.0f, -1.0f, 1.0f);
 }
 Camera::~Camera()
 {
