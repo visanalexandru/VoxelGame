@@ -8,6 +8,31 @@
 #include<cmath>
 #include<thread>
 #include<mutex>
+template <class T>
+inline void hash_combine(std::size_t & seed, const T & v)
+{
+    std::hash<T> hasher;
+    seed ^= hasher(v) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+}
+namespace std
+{
+
+template <>
+struct hash<glm::vec3>
+{
+    std::size_t operator()(const glm::vec3& k) const
+    {
+        std::size_t seed=0;
+        hash_combine(seed,(int)k.x);
+        hash_combine(seed,(int)k.y);
+        hash_combine(seed,(int)k.z);
+        return seed;
+    }
+};
+
+
+
+}
 class ChunkManager
 {
 public:
@@ -38,7 +63,7 @@ private:
     int view_range;
     const ShaderProgram&chunk_shader;
     const Texture2d&chunk_texture;
-    unordered_map<string,Chunk*>chunk_map;
+    unordered_map<glm::vec3,Chunk*>chunk_map;
     vector<Chunk*>chunks;
     string get_string(glm::vec3 pos);
     Scene scene;

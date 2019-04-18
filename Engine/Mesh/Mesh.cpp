@@ -4,6 +4,8 @@ Mesh::Mesh(const ShaderProgram&prog,const Texture&tex):shader_program(prog),text
 {
     //ctor
     vao_index=0;
+    vertices_size=0;
+    triangles_size=0;
 }
 void Mesh::bind_mesh(bool bind_texture_and_shader) const
 {

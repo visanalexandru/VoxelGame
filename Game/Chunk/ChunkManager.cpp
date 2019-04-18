@@ -81,7 +81,7 @@ Chunk*ChunkManager::get_chunk_at(glm::vec3 pos)
 {
     if(does_chunk_exists_at(pos))
     {
-        return chunk_map[get_string(pos)];
+        return chunk_map[pos];
 
     }
     return NULL;
@@ -96,16 +96,15 @@ void ChunkManager::delete_all_chunks()
 }
 void ChunkManager::destroy_chunks_out_of_range()
 {
-    string hashed;
     lock();
     for(unsigned i=0; i<chunks.size(); i++)
     {
         if(is_position_too_far(chunks[i]->get_position()))
         {
-            hashed=get_string(chunks[i]->get_position());
+            glm::vec3 pos=chunks[i]->get_position();
             delete chunks[i];
             chunks.erase(chunks.begin()+i);
-            chunk_map.erase(hashed);
+            chunk_map.erase(pos);
             i--;
         }
     }
@@ -174,8 +173,7 @@ void ChunkManager::unlock()
 bool ChunkManager::does_chunk_exists_at(glm::vec3 position)
 {
     lock();
-    string hashed=get_string(position);
-    auto got = chunk_map.find (hashed);
+    auto got = chunk_map.find (position);
     unlock();
     return got!=chunk_map.end();
 }
@@ -186,7 +184,7 @@ void ChunkManager::spawn_chunk(glm::vec3 position)
         n[i]=get_chunk_at(position+offsets[i]);
     Chunk* to_add=new Chunk(position,chunk_shader,chunk_texture,n);
     lock();
-    chunk_map[get_string(position)]=to_add;
+    chunk_map[position]=to_add;
     to_add->update_neighbours();
     chunks.push_back(to_add);
     unlock();
