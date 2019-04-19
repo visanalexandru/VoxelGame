@@ -96,9 +96,9 @@ struct byte_vertex
     }
     static void enable_attributes()
     {
-        glVertexAttribPointer(0, 3, GL_BYTE, GL_FALSE, sizeof(byte_vertex), (const GLvoid*)offsetof(byte_vertex, position));
+        glVertexAttribPointer(0, 3, GL_UNSIGNED_BYTE, GL_FALSE, sizeof(byte_vertex), (const GLvoid*)offsetof(byte_vertex, position));
         glEnableVertexAttribArray(0);
-        glVertexAttribPointer(1, 2, GL_BYTE, GL_FALSE, sizeof(byte_vertex), (const GLvoid*)offsetof(byte_vertex, uv));
+        glVertexAttribPointer(1, 2, GL_UNSIGNED_BYTE, GL_FALSE, sizeof(byte_vertex), (const GLvoid*)offsetof(byte_vertex, uv));
         glEnableVertexAttribArray(1);
     }
     glm::vec3 get_position()

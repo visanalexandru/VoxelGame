@@ -67,7 +67,7 @@ int main()
         renderer.Render_scene(chunk_manager.get_scene());
         chunk_manager.unlock();
         renderer.End_frame();
-        cout<<1/(glfwGetTime()-a)<<endl;
+        cout<<1/(glfwGetTime()-a)<<'\n';
 
     }
     GraphicsUtil::destroy_window(window);

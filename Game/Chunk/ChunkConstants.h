@@ -2,16 +2,20 @@
 #define CHUNKCONSTANTS_H
 #include<iostream>
 typedef uint8_t byte;
-class ChunkConstants
-{
-public:
-    static const int chunk_width=16;
-    static const int chunk_heigth=255;
-};
 enum class BlockId:byte
 {
     Air_block=0,
     Dirt_block=1,
-    Stone_block=2,
+    Stone_block=2
+};
+class ChunkConstants
+{
+public:
+    static const int chunk_width=16;
+    static const int chunk_heigth=254;
+    static bool is_block_transparent(BlockId block);
+    static bool is_inside(int yposition);
+private:
+    static const bool transparency[3];
 };
 #endif // CHUNKCONSTANTS_H
