@@ -42,6 +42,10 @@ void NoiseGenerator::generate_3d_heigthmap(Heightmap3d<BlockId>&h)
                 {
                     if(p>30)
                         h.set_value_at(k,p,i,BlockId::Dirt_block);
+                    else if(p>20)
+                    {
+                        h.set_value_at(k,p,i,BlockId::Sand_block);
+                    }
                     else
                         h.set_value_at(k,p,i,BlockId::Stone_block);
 
@@ -50,8 +54,6 @@ void NoiseGenerator::generate_3d_heigthmap(Heightmap3d<BlockId>&h)
                 else
                 {
                     h.set_value_at(k,p,i,BlockId::Air_block);
-
-
                 }
             }
         }

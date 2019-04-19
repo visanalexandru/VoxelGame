@@ -6,7 +6,8 @@ enum class BlockId:byte
 {
     Air_block=0,
     Dirt_block=1,
-    Stone_block=2
+    Stone_block=2,
+    Sand_block=3
 };
 class ChunkConstants
 {
@@ -16,6 +17,6 @@ public:
     static bool is_block_transparent(BlockId block);
     static bool is_inside(int yposition);
 private:
-    static const bool transparency[3];
+    static const bool transparency[4];
 };
 #endif // CHUNKCONSTANTS_H

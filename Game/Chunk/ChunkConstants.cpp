@@ -1,7 +1,8 @@
 #include"ChunkConstants.h"
-const bool ChunkConstants::transparency[3]
+const bool ChunkConstants::transparency[4]
 {
     true,
+    false,
     false,
     false
 };
