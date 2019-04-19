@@ -1,10 +1,11 @@
 #include"ChunkConstants.h"
-const bool ChunkConstants::transparency[4]
+const bool ChunkConstants::transparency[5]
 {
     true,
     false,
     false,
-    false
+    false,
+    true
 };
 bool ChunkConstants::is_block_transparent(BlockId block)
 {

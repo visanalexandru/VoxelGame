@@ -69,6 +69,7 @@ void Chunk::add_faces_at(int x,int y,int z)
     int xp,yp,zp;
     glm::vec2 uv_origin;
     BlockId here;
+    BlockId block_here=data.get_value_at(x,y,z);
     if(data.get_value_at(x,y,z)!=BlockId::Air_block)
         for(int i=0; i<6; i++)
         {
@@ -78,7 +79,8 @@ void Chunk::add_faces_at(int x,int y,int z)
             uv_origin=TextureAtlas::get_origin_coords(data.get_value_at(x,y,z),i);
             if(is_inside(xp,yp,zp))
             {
-                if(ChunkConstants::is_block_transparent(data.get_value_at(xp,yp,zp)))
+                here=data.get_value_at(xp,yp,zp);
+                if(ChunkConstants::is_block_transparent(here)&&here!=block_here)
                 {
                     meshdata.add_face(glm::vec3(x,y,z),i,uv_origin);
                 }
@@ -88,25 +90,25 @@ void Chunk::add_faces_at(int x,int y,int z)
                 if(xp<0)
                 {
                     here=n_left->get_block_at(ChunkConstants::chunk_width-1,yp,zp);
-                    if(ChunkConstants::is_block_transparent(here))
+                    if(ChunkConstants::is_block_transparent(here)&&here!=block_here)
                         meshdata.add_face(glm::vec3(x,y,z),i,uv_origin);
                 }
                 else if(xp>ChunkConstants::chunk_width-1)
                 {
                     here=n_right->get_block_at(0,yp,zp);
-                    if(ChunkConstants::is_block_transparent(here))
+                    if(ChunkConstants::is_block_transparent(here)&&here!=block_here)
                         meshdata.add_face(glm::vec3(x,y,z),i,uv_origin);
                 }
                 else if(zp<0)
                 {
                     here=n_down->get_block_at(xp,yp,ChunkConstants::chunk_width-1);
-                    if(ChunkConstants::is_block_transparent(here))
+                    if(ChunkConstants::is_block_transparent(here)&&here!=block_here)
                         meshdata.add_face(glm::vec3(x,y,z),i,uv_origin);
                 }
                 else if(zp>ChunkConstants::chunk_width-1)
                 {
                     here=n_up->get_block_at(xp,yp,0);
-                    if(ChunkConstants::is_block_transparent(here))
+                    if(ChunkConstants::is_block_transparent(here)&&here!=block_here)
                         meshdata.add_face(glm::vec3(x,y,z),i,uv_origin);
                 }
             }

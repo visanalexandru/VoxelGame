@@ -53,7 +53,10 @@ void NoiseGenerator::generate_3d_heigthmap(Heightmap3d<BlockId>&h)
 
                 else
                 {
-                    h.set_value_at(k,p,i,BlockId::Air_block);
+                    if(p>21)
+                        h.set_value_at(k,p,i,BlockId::Air_block);
+                    else
+                        h.set_value_at(k,p,i,BlockId::Water_block);
                 }
             }
         }
