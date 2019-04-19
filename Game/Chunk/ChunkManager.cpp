@@ -118,6 +118,10 @@ const Scene&ChunkManager::get_scene()
     {
         scene.add_drawable(*chunks[i]);
     }
+    for (unsigned i=0; i<chunks.size(); i++)
+    {
+        scene.add_drawable(chunks[i]->get_water_obj());
+    }
     return scene;
 
 }

@@ -25,23 +25,26 @@ public:
     void update_neighbours();
     bool has_all_neighbours();
     void mark_for_update();
+    const Drawable3d&get_water_obj();
 protected:
 
 private:
     void dereference_chunk_from_neighbours();
     bool is_inside(int x,int y,int z);
     static glm::vec3 offsets[6];
-    void add_faces_at(int x,int y,int z);
+    void add_faces_at(int x,int y,int z,Meshdata_simple&meshdata);
     Heightmap3d<BlockId> data;
     Chunk*n_up;
     Chunk*n_down;
     Chunk*n_left;
     Chunk*n_right;
     Meshdata_simple meshdata;
+    Meshdata_simple water_meshdata;
     NoiseParameters p;
     NoiseGenerator generator;
     bool needs_to_update;
     bool needs_to_assign_mesh;
+    Drawable3d Water_obj;
 };
 
 #endif // CHUNK_H

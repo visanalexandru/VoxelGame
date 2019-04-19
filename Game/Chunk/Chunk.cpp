@@ -8,7 +8,9 @@ glm::vec3 Chunk::offsets[6]
     glm::vec3(0,1,0),
     glm::vec3(0,-1,0),
 };
-Chunk::Chunk(glm::vec3 pos,const ShaderProgram&pr,const Texture2d&te,Chunk*neighbours[4]):Drawable3d(pos,pr,te),generator(pos,0,p)
+Chunk::Chunk(glm::vec3 pos,const ShaderProgram&pr,const Texture2d&te,Chunk*neighbours[4]):Drawable3d(pos,pr,te),
+    generator(pos,0,p),
+    Water_obj(pos,pr,te)
 {
     //ctor
     set_neighbours(neighbours[0],neighbours[1],neighbours[2],neighbours[3]);
@@ -64,7 +66,7 @@ BlockId Chunk::get_block_at(int x,int y,int z)
     return data.get_value_at(x,y,z);
 
 }
-void Chunk::add_faces_at(int x,int y,int z)
+void Chunk::add_faces_at(int x,int y,int z,Meshdata_simple&meshdata)
 {
     int xp,yp,zp;
     glm::vec2 uv_origin;
@@ -171,7 +173,10 @@ void Chunk::create_mesh_data()
             {
                 for(int p=0; p<ChunkConstants::chunk_width; p++)
                 {
-                    add_faces_at(p,i,k);
+                    if(data.get_value_at(p,i,k)!=BlockId::Water_block)
+                        add_faces_at(p,i,k,meshdata);
+                    else
+                        add_faces_at(p,i,k,water_meshdata);
                 }
             }
 
@@ -180,9 +185,14 @@ void Chunk::create_mesh_data()
         needs_to_assign_mesh=true;
     }
 }
+const Drawable3d&Chunk::get_water_obj()
+{
+    return Water_obj;
+}
 void Chunk::assign_mesh_data()
 {
     set_mesh_data(meshdata);
+    Water_obj.set_mesh_data(water_meshdata);
     needs_to_assign_mesh=false;
 }
 Chunk::~Chunk()
