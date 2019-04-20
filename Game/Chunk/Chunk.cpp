@@ -167,6 +167,7 @@ void Chunk::create_mesh_data()
     if(has_all_neighbours())
     {
         meshdata.clear_data();
+        water_meshdata.clear_data();
         for(int i=0; i<ChunkConstants::chunk_heigth; i++)
         {
             for(int k=0; k<ChunkConstants::chunk_width; k++)

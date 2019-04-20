@@ -92,7 +92,8 @@ void PlayerInput::raycast_break()
         if(chunk_manager.does_chunk_exists_at(fixed) &&ChunkConstants::is_inside(offset.y))
         {
             Chunk*hit=chunk_manager.get_chunk_at(fixed);
-            if(hit->get_block_at(offset.x,offset.y,offset.z)!=BlockId::Air_block)
+            BlockId block_hit=hit->get_block_at(offset.x,offset.y,offset.z);
+            if(ChunkConstants::can_block_be_hit(block_hit))
             {
                 hit->set_block_at(offset.x,offset.y,offset.z,BlockId::Air_block);
                 break;
@@ -113,7 +114,8 @@ void PlayerInput::raycast_place()
         if(chunk_manager.does_chunk_exists_at(fixed) && offset.y>=0 && offset.y<255)
         {
             Chunk*hit=chunk_manager.get_chunk_at(fixed);
-            if(hit->get_block_at(offset.x,offset.y,offset.z)!=BlockId::Air_block)
+            BlockId block_hit=hit->get_block_at(offset.x,offset.y,offset.z);
+            if(ChunkConstants::can_block_be_hit(block_hit))
             {
                 if(ChunkConstants::is_inside(last_position.y) &&last_chunk)
                 {
