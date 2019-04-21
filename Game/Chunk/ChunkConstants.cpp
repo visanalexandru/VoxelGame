@@ -1,24 +1,33 @@
 #include"ChunkConstants.h"
-const bool ChunkConstants::transparency[5]
+const bool ChunkConstants::transparency[7]
 {
     true,
     false,
     false,
+    false,
+    true,
     false,
     true
 };
-const bool ChunkConstants::can_be_hit[5]
+const bool ChunkConstants::can_be_hit[7]
 {
     false,
     true,
     true,
     true,
-    false
+    false,
+    true,
+    true
 };
 bool ChunkConstants::is_block_transparent(BlockId block)
 {
     int index=(int)block;
     return transparency[index];
+}
+bool ChunkConstants::is_inside(int x,int y,int z)
+{
+    return x>=0 &&x<chunk_width &&z>=0 && z<chunk_width && is_inside(y);
+
 }
 bool ChunkConstants::can_block_be_hit(BlockId block)
 {

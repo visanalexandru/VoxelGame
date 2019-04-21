@@ -31,6 +31,7 @@ void NoiseGenerator::generate_heightmap(Heightmap<float>&heightmap,int sizex,flo
 }
 void NoiseGenerator::generate_3d_heigthmap(Heightmap3d<BlockId>&h)
 {
+    std::vector<glm::vec3>trees;
     for(int i=0; i<ChunkConstants::chunk_width; i++)
     {
         for(int k=0; k<ChunkConstants::chunk_width; k++)
@@ -50,7 +51,6 @@ void NoiseGenerator::generate_3d_heigthmap(Heightmap3d<BlockId>&h)
                         h.set_value_at(k,p,i,BlockId::Stone_block);
 
                 }
-
                 else
                 {
                     if(p>24)
@@ -58,8 +58,25 @@ void NoiseGenerator::generate_3d_heigthmap(Heightmap3d<BlockId>&h)
                     else
                         h.set_value_at(k,p,i,BlockId::Water_block);
                 }
+
+            }
+            float flora_value=get_flora_at(seed+xposition+k,seed+yposition+i);
+            if(value>30 &&flora_value>7)
+            {
+                trees.push_back(glm::vec3(k,value+1,i));
+
             }
         }
+    }
+    generate_trees(trees,h);
+}
+void NoiseGenerator::generate_trees(std::vector<glm::vec3>&where_to_add_trees,Heightmap3d<BlockId>&h)
+{
+    Structure_Builder builder(h);
+    for(unsigned i=0; i<where_to_add_trees.size(); i++)
+    {
+        glm::vec3 pos=where_to_add_trees[i];
+        builder.add_tree_at(pos.x,pos.y,pos.z);
     }
 }
 float NoiseGenerator::get_noise_at(float x,float y)
@@ -69,6 +86,11 @@ float NoiseGenerator::get_noise_at(float x,float y)
     float b=generator.fractal(octaves,x/div/10,y/div/10)*100;
     b=std::max(b,20.f);
     return a+b;
+}
+float NoiseGenerator::get_flora_at(float x,float y)
+{
+    float b=generator.fractal(octaves,x,y)*10;
+    return b;
 }
 NoiseGenerator::~NoiseGenerator()
 {
