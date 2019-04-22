@@ -17,6 +17,8 @@ glm::vec2 TextureAtlas::get_origin_coords(BlockId block,int face)
     case BlockId::Water_block:
         return glm::vec2(8,15);
     case BlockId::Wood_block:
+        if(face==4||face==5)
+            return glm::vec2(5,15);
         return glm::vec2(4,15);
     case BlockId::Leaf_block:
         return glm::vec2(6,15);

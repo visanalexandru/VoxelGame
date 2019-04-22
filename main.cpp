@@ -62,10 +62,10 @@ int main()
         input_processer.process_input();
         renderer.Prepare_frame();
         renderer.Render(sky);
-        renderer.Render(crosshair);
         chunk_manager.lock();
         renderer.Render_scene(chunk_manager.get_scene());
         chunk_manager.unlock();
+        renderer.Render(crosshair);
         renderer.End_frame();
         cout<<1/(glfwGetTime()-a)<<'\n';
 

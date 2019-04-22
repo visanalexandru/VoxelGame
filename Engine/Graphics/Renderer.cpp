@@ -50,12 +50,14 @@ void Renderer::Render_scene(const Scene&scene)
 }
 void Renderer::Render(const Drawable2d&to_draw)
 {
+    glDisable(GL_DEPTH_TEST);
     const Mesh&mesh=to_draw.Get_mesh();
     const ShaderProgram&prog=mesh.Get_shader();
     mesh.bind_mesh(true);
     prog.set_mat4(to_draw.Get_position_matrix(),model);
     prog.set_mat4(main_camera.getOrtographicMatrix(),proj);
     glDrawElements(GL_TRIANGLES,mesh.Get_triangles_size(),GL_UNSIGNED_INT,(void*)0);
+    glEnable(GL_DEPTH_TEST);
 
 }
 void Renderer::Render(const Skybox&skybox)
