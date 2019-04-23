@@ -26,6 +26,7 @@ void ChunkManager::tick()
     {
         time=glfwGetTime();
         spawn_closest_chunk();
+        update_chunks_from_server();
         Update_chunks();
         aux=max(((double)glfwGetTime() - time),0.0);//it might be negative if the opengl context has been destroyed
         diff =tick_time_ms-aux*1000;
@@ -93,6 +94,16 @@ void ChunkManager::delete_all_chunks()
     for(unsigned i=0; i<chunks.size(); i++)
     {
         delete chunks[i];
+    }
+}
+void ChunkManager::update_chunks_from_server()
+{
+    for(unsigned i=0; i<chunks.size(); i++)
+    {
+        lock();
+        Chunk*here=chunks[i];
+        here->get_update_from_server();
+        unlock();
     }
 }
 void ChunkManager::destroy_chunks_out_of_range()

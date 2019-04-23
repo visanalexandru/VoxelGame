@@ -52,6 +52,7 @@ public:
 protected:
 
 private:
+    void update_chunks_from_server();
     void spawn_closest_chunk();
     void Update_chunks();
     std::mutex mutex_lock;
