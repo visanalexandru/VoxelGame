@@ -95,7 +95,7 @@ void PlayerInput::raycast_break()
             BlockId block_hit=hit->get_block_at(offset.x,offset.y,offset.z);
             if(ChunkConstants::can_block_be_hit(block_hit))
             {
-                hit->set_block_at(offset.x,offset.y,offset.z,BlockId::Air_block);
+                hit->set_block_at_client(offset.x,offset.y,offset.z,BlockId::Air_block);
                 break;
             }
         }
@@ -119,7 +119,7 @@ void PlayerInput::raycast_place()
             {
                 if(ChunkConstants::is_inside(last_position.y) &&last_chunk)
                 {
-                    last_chunk->set_block_at(last_position.x,last_position.y,last_position.z,BlockId::Dirt_block);
+                    last_chunk->set_block_at_client(last_position.x,last_position.y,last_position.z,BlockId::Dirt_block);
                 }
                 break;
             }

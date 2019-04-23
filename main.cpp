@@ -9,6 +9,7 @@
 #include"Engine/ModelLoader/ModelLoader.h"
 #include"Engine/MeshData/Meshdata_simple.h"
 #include"Game/Chunk/ChunkManager.h"
+#include"Game/Network/Connection.h"
 #include"Game/Crosshair.h"
 using namespace std;
 void load_all_resources(ResourceManager&manager)
@@ -52,7 +53,8 @@ int main()
     Camera camera(glm::vec3(0,40,0),parsed.Get_parsed());
     GraphicsUtil::set_main_camera(&camera);
     Renderer renderer(window,camera);
-    ChunkManager chunk_manager(basic_prog,basic_texture,camera,15);
+    Connection server_connection("127.0.0.1",8000);
+    ChunkManager chunk_manager(basic_prog,basic_texture,camera,15,server_connection);
     PlayerInput input_processer(window,camera,chunk_manager);
     while(!glfwWindowShouldClose(window))
     {
@@ -67,7 +69,6 @@ int main()
         chunk_manager.unlock();
         renderer.Render(crosshair);
         renderer.End_frame();
-        cout<<1/(glfwGetTime()-a)<<'\n';
 
     }
     GraphicsUtil::destroy_window(window);

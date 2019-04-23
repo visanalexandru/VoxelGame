@@ -8,6 +8,7 @@
 #include<cmath>
 #include<thread>
 #include<mutex>
+#include"../Game/Network/Connection.h"
 template <class T>
 inline void hash_combine(std::size_t & seed, const T & v)
 {
@@ -37,7 +38,7 @@ class ChunkManager
 {
 public:
 
-    ChunkManager(const ShaderProgram&chunk_sh,const Texture2d&chunk_t,Camera&player_cam,int v_range);
+    ChunkManager(const ShaderProgram&chunk_sh,const Texture2d&chunk_t,Camera&player_cam,int v_range,Connection&connection);
     virtual ~ChunkManager();
     void create_meshes();
     const Scene&get_scene();
@@ -73,6 +74,7 @@ private:
     void start_thread();
     void stop_thread();
     const int tick_time_ms;
+    Connection&server_connnection;
 
 };
 

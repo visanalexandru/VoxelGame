@@ -1,10 +1,11 @@
 #include "ChunkManager.h"
 
-ChunkManager::ChunkManager(const ShaderProgram&chunk_sh,const Texture2d&chunk_t,Camera&player_cam,int v_range):chunk_shader(chunk_sh),
+ChunkManager::ChunkManager(const ShaderProgram&chunk_sh,const Texture2d&chunk_t,Camera&player_cam,int v_range,Connection&connection):chunk_shader(chunk_sh),
     chunk_texture(chunk_t),
     scene(chunk_t,chunk_sh),
     player_camera(player_cam),
-    tick_time_ms(20)
+    tick_time_ms(20),
+    server_connnection(connection)
 {
     //ctor
     view_range=v_range;
@@ -186,7 +187,7 @@ void ChunkManager::spawn_chunk(glm::vec3 position)
     Chunk*n[4];
     for(int i=0; i<4; i++)
         n[i]=get_chunk_at(position+offsets[i]);
-    Chunk* to_add=new Chunk(position,chunk_shader,chunk_texture,n);
+    Chunk* to_add=new Chunk(position,chunk_shader,chunk_texture,n,server_connnection);
     lock();
     chunk_map[position]=to_add;
     to_add->update_neighbours();

@@ -6,15 +6,17 @@
 #include"../../Engine/MeshData/Meshdata_simple.h"
 #include"../ChunkData/Heightmap3d.h"
 #include"../TextureAtlas/TextureAtlas.h"
+#include"../Game/Network/Connection.h"
 class Chunk:public Drawable3d
 {
 public:
-    Chunk(glm::vec3 pos,const ShaderProgram&p,const Texture2d&t,Chunk*neighbours[4]);
+    Chunk(glm::vec3 pos,const ShaderProgram&p,const Texture2d&t,Chunk*neighbours[4],Connection&connection);
     virtual ~Chunk();
     void create_mesh_data();
     void assign_mesh_data();
     BlockId get_block_at(int x,int y,int z);
-    void set_block_at(int x,int y,int z,BlockId to_set);
+    void set_block_at_client(int x,int y,int z,BlockId to_set);
+    void set_block_at_server(int x,int y,int z,BlockId to_set);
     bool does_need_to_upate_chunk();
     bool does_need_to_assign_mesh();
     void set_neighbours(Chunk*c1,Chunk*c2,Chunk*c3,Chunk*c4);
@@ -26,6 +28,7 @@ public:
     bool has_all_neighbours();
     void mark_for_update();
     const Drawable3d&get_water_obj();
+    void get_update_from_server();
 protected:
 
 private:
@@ -45,6 +48,9 @@ private:
     bool needs_to_update;
     bool needs_to_assign_mesh;
     Drawable3d Water_obj;
+    Connection&sv_connection;
+    string vec_to_string(int x,int y,int z);
+    void parse(const string&to_parse);
 };
 
 #endif // CHUNK_H

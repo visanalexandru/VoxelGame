@@ -1,4 +1,5 @@
 #include "Chunk.h"
+#include<sstream>
 glm::vec3 Chunk::offsets[6]
 {
     glm::vec3(0,0,-1),
@@ -8,15 +9,37 @@ glm::vec3 Chunk::offsets[6]
     glm::vec3(0,1,0),
     glm::vec3(0,-1,0),
 };
-Chunk::Chunk(glm::vec3 pos,const ShaderProgram&pr,const Texture2d&te,Chunk*neighbours[4]):Drawable3d(pos,pr,te),
+Chunk::Chunk(glm::vec3 pos,const ShaderProgram&pr,const Texture2d&te,Chunk*neighbours[4],Connection&connection):Drawable3d(pos,pr,te),
     generator(pos,0,p),
-    Water_obj(pos,pr,te)
+    Water_obj(pos,pr,te),
+    sv_connection(connection)
 {
     //ctor
     set_neighbours(neighbours[0],neighbours[1],neighbours[2],neighbours[3]);
     needs_to_update=true;
     needs_to_assign_mesh=false;
     generator.generate_3d_heigthmap(data);
+    get_update_from_server();
+}
+void Chunk::get_update_from_server()
+{
+    string here=" "+to_string((int)get_position().x)+" "+to_string((int)get_position().z);
+    string to_request="r"+here;//we request block updates
+    sv_connection.send_data(to_request);
+    string p=sv_connection.receive_data();
+    parse(p);
+}
+void Chunk::parse(const string&to_parse)
+{
+    int x,y,z;
+    int id;
+    stringstream stream;
+    stream<<to_parse;
+    while(stream>>x>>y>>z>>id)
+    {
+        BlockId casted= static_cast<BlockId>(id);
+        set_block_at_server(x,y,z,casted);
+    }
 }
 void Chunk::mark_for_update()
 {
@@ -116,8 +139,16 @@ void Chunk::add_faces_at(int x,int y,int z,Meshdata_simple&meshdata)
             }
         }
 }
-void Chunk::set_block_at(int x,int y,int z,BlockId to_set)
+string Chunk::vec_to_string(int x,int y,int z)
 {
+    return to_string(x)+" "+to_string(y)+" "+to_string(z);
+}
+void Chunk::set_block_at_client(int x,int y,int z,BlockId to_set)
+{
+    int casted=(int)to_set;
+    int x2=get_position().x,z2=get_position().z;
+    string to_send="s "+vec_to_string(x+x2,y,z+z2)+" "+to_string(casted);
+    sv_connection.send_data(to_send);
     data.set_value_at(x,y,z,to_set);
     if(x==15 && n_right)
     {
@@ -138,6 +169,31 @@ void Chunk::set_block_at(int x,int y,int z,BlockId to_set)
     }
     needs_to_update=true;
 
+}
+void Chunk::set_block_at_server(int x,int y,int z,BlockId to_set)
+{
+    if(data.get_value_at(x,y,z)!=to_set)
+    {
+        data.set_value_at(x,y,z,to_set);
+        if(x==15 && n_right)
+        {
+            n_right->mark_for_update();
+
+        }
+        else if(x==0 &&n_left)
+        {
+            n_left->mark_for_update();
+        }
+        if(z==15 && n_up)
+        {
+            n_up->mark_for_update();
+        }
+        else if(z==0 && n_down)
+        {
+            n_down->mark_for_update();
+        }
+        needs_to_update=true;
+    }
 }
 void Chunk::set_neighbours(Chunk*c1,Chunk*c2,Chunk*c3,Chunk*c4)
 {
