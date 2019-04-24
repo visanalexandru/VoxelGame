@@ -54,6 +54,8 @@ int main()
     GraphicsUtil::set_main_camera(&camera);
     Renderer renderer(window,camera);
     Connection server_connection("127.0.0.1",8000);
+    if(!server_connection.is_conected())
+        return 0;
     ChunkManager chunk_manager(basic_prog,basic_texture,camera,15,server_connection);
     PlayerInput input_processer(window,camera,chunk_manager);
     while(!glfwWindowShouldClose(window))

@@ -9,11 +9,12 @@ public:
     virtual ~Connection();
     void send_data(const std::string to_send);
     const std::string receive_data();
-
+    bool is_conected();
 protected:
     void initialize_connection(const std::string ip,int port);
 private:
     bool has_done(sf::Socket::Status stat);
+    bool has_connected;
     sf::TcpSocket socket;
 };
 
