@@ -59,13 +59,17 @@ void MeshData<Vertex_type>::add_triangle(Vertex_type v1,Vertex_type v2,Vertex_ty
 template<class Vertex_type>
 const void* MeshData<Vertex_type>::get_vertex_data()const
 {
-    return &verticeslist[0];
+    if(verticeslist.size())
+        return &verticeslist[0];
+    return NULL;
 
 }
 template<class Vertex_type>
 const void* MeshData<Vertex_type>::get_triangles_data()const
 {
-    return &triangleslist[0];
+    if(triangleslist.size())
+        return &triangleslist[0];
+    return NULL;
 
 }
 template<class Vertex_type>

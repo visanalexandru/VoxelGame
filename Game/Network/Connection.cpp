@@ -17,10 +17,14 @@ const std::string Connection::receive_data()
 {
     sf::Packet packet;
     sf::Socket::Status status=socket.receive(packet);
-    if(!has_done(status))
-        std::cout<<"COULD NOT RECEIVE PACKET"<<std::endl;
     std::string received;
-    packet>>received;
+    if(!has_done(status))
+    {
+        std::cout<<"COULD NOT RECEIVE PACKET"<<std::endl;
+        received="";
+    }
+    else
+        packet>>received;
     return received;
 
 
