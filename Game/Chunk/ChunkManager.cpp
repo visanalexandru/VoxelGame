@@ -1,5 +1,6 @@
 #include "ChunkManager.h"
-
+#include<string>
+#include<sstream>
 ChunkManager::ChunkManager(const ShaderProgram&chunk_sh,const Texture2d&chunk_t,Camera&player_cam,int v_range,Connection&connection):chunk_shader(chunk_sh),
     chunk_texture(chunk_t),
     scene(chunk_t,chunk_sh),
@@ -26,7 +27,7 @@ void ChunkManager::tick()
     {
         time=glfwGetTime();
         spawn_closest_chunk();
-        update_chunks_from_server();
+        get_changes_from_server();
         Update_chunks();
         aux=max(((double)glfwGetTime() - time),0.0);//it might be negative if the opengl context has been destroyed
         diff =tick_time_ms-aux*1000;
@@ -89,21 +90,40 @@ Chunk*ChunkManager::get_chunk_at(glm::vec3 pos)
     return NULL;
 
 }
+void ChunkManager::get_changes_from_server()
+{
+    server_connnection.send_data("p");
+    string received=server_connnection.receive_data();
+    parse_response(received);
+}
+void ChunkManager::parse_response(std::string&to_parse)
+{
+    lock();
+    stringstream parser;
+    parser<<to_parse;
+    glm::vec3 pos;
+    int x,y,z,block;
+    Chunk*aux;
+    while(parser>>x>>y>>z>>block)
+    {
+        pos=glm::vec3(x,y,z);
+        glm::vec3 fixed=get_chunk_relative_position(pos);
+        if(does_chunk_exists_at(fixed))
+        {
+            aux=get_chunk_at(fixed);
+            int x2=(int)(x-fixed.x);
+            int y2=(int)y;
+            int z2=(int)(z-fixed.z);
+            aux->set_block_at_server(x2,y2,z2,(BlockId)block);
+        }
+    }
+    unlock();
+}
 void ChunkManager::delete_all_chunks()
 {
     for(unsigned i=0; i<chunks.size(); i++)
     {
         delete chunks[i];
-    }
-}
-void ChunkManager::update_chunks_from_server()
-{
-    for(unsigned i=0; i<chunks.size(); i++)
-    {
-        lock();
-        Chunk*here=chunks[i];
-        here->get_update_from_server();
-        unlock();
     }
 }
 void ChunkManager::destroy_chunks_out_of_range()

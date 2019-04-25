@@ -52,7 +52,6 @@ public:
 protected:
 
 private:
-    void update_chunks_from_server();
     void spawn_closest_chunk();
     void Update_chunks();
     std::mutex mutex_lock;
@@ -74,8 +73,10 @@ private:
     std::thread* worker;
     void start_thread();
     void stop_thread();
+    void parse_response(std::string&to_parse);
     const int tick_time_ms;
     Connection&server_connnection;
+    void get_changes_from_server();
 
 };
 

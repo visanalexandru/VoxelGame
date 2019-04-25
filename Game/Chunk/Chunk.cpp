@@ -19,9 +19,9 @@ Chunk::Chunk(glm::vec3 pos,const ShaderProgram&pr,const Texture2d&te,Chunk*neigh
     needs_to_update=true;
     needs_to_assign_mesh=false;
     generator.generate_3d_heigthmap(data);
-    get_update_from_server();
+    get_data_from_server();
 }
-void Chunk::get_update_from_server()
+void Chunk::get_data_from_server()
 {
     string here=" "+to_string((int)get_position().x)+" "+to_string((int)get_position().z);
     string to_request="r"+here;//we request block updates

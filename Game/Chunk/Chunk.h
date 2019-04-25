@@ -28,7 +28,7 @@ public:
     bool has_all_neighbours();
     void mark_for_update();
     const Drawable3d&get_water_obj();
-    void get_update_from_server();
+    void get_data_from_server();
 protected:
 
 private:
