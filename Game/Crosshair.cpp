@@ -1,6 +1,6 @@
 #include "Crosshair.h"
 
-Crosshair::Crosshair(const ShaderProgram&prog,const Texture2d&tex):Drawable2d(glm::vec2(240.f,240.f),glm::vec2(20,20),prog,tex)
+Crosshair::Crosshair(const ShaderProgram&prog,const Texture2d&tex,glm::vec2 position,glm::vec2 size):Drawable2d(glm::vec2(position.x-size.x/2,position.y-size.y/2),size,prog,tex)
 {
     //ctor
     create_data();

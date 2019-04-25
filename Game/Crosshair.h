@@ -4,7 +4,7 @@
 class Crosshair:public Drawable2d
 {
 public:
-    Crosshair(const ShaderProgram&prog,const Texture2d&tex);
+    Crosshair(const ShaderProgram&prog,const Texture2d&tex,glm::vec2 postion,glm::vec2 size);
     virtual ~Crosshair();
 protected:
     void create_data();

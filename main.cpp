@@ -48,7 +48,7 @@ int main()
     ShaderProgram& skybox_prog=manager.get_shader_program("skybox_shader");
     Texture2d&basic_texture=manager.get_texture("test3");
     Texture2d&crosshair_texture=manager.get_texture("crosshair");
-    Crosshair crosshair(crosshair_prog,crosshair_texture);
+    Crosshair crosshair(crosshair_prog,crosshair_texture,glm::vec2(parsed.Get_parsed().get_width()/2,parsed.Get_parsed().get_height()/2),glm::vec2(20,20));
     Skybox sky(skybox_prog,manager.get_cubemap("test4"));
     Camera camera(glm::vec3(0,40,0),parsed.Get_parsed());
     GraphicsUtil::set_main_camera(&camera);
