@@ -150,6 +150,13 @@ void Chunk::set_block_at_client(int x,int y,int z,BlockId to_set)
     string to_send="s "+vec_to_string(x+x2,y,z+z2)+" "+to_string(casted);
     sv_connection.send_data(to_send);
     data.set_value_at(x,y,z,to_set);
+    update_neighbours_at(x,y,z);
+    needs_to_update=true;
+
+}
+void Chunk::update_neighbours_at(int x,int y,int z)
+{
+
     if(x==15 && n_right)
     {
         n_right->mark_for_update();
@@ -167,31 +174,13 @@ void Chunk::set_block_at_client(int x,int y,int z,BlockId to_set)
     {
         n_down->mark_for_update();
     }
-    needs_to_update=true;
-
 }
 void Chunk::set_block_at_server(int x,int y,int z,BlockId to_set)
 {
     if(data.get_value_at(x,y,z)!=to_set)
     {
         data.set_value_at(x,y,z,to_set);
-        if(x==15 && n_right)
-        {
-            n_right->mark_for_update();
-
-        }
-        else if(x==0 &&n_left)
-        {
-            n_left->mark_for_update();
-        }
-        if(z==15 && n_up)
-        {
-            n_up->mark_for_update();
-        }
-        else if(z==0 && n_down)
-        {
-            n_down->mark_for_update();
-        }
+        update_neighbours_at(x,y,z);
         needs_to_update=true;
     }
 }

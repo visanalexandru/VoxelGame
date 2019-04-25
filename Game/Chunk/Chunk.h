@@ -32,6 +32,7 @@ public:
 protected:
 
 private:
+    void update_neighbours_at(int x,int y,int z);
     void dereference_chunk_from_neighbours();
     bool is_inside(int x,int y,int z);
     static glm::vec3 offsets[6];
