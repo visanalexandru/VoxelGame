@@ -16,6 +16,7 @@ public:
 protected:
 
 private:
+    static void key_callbacks(GLFWwindow* window, int key, int scancode, int action, int mods);
     const float block_break_cooldown=0.5f;
     const float ray_step=0.05f;
     float last_time_pressed_mouse1;
@@ -24,7 +25,7 @@ private:
     void game_input();
     void raycast_break();
     void raycast_place();
-    void check_callbacks();
+    static unsigned held_block;
     float sensitivity;
     double lastX;
     double lastY;

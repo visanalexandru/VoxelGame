@@ -29,6 +29,7 @@ const std::string Connection::receive_data()
     {
         std::cout<<"COULD NOT RECEIVE PACKET"<<std::endl;
         received="";
+        has_connected=false;
     }
     else
         packet>>received;
@@ -50,7 +51,10 @@ void Connection::send_data(std::string to_send)
     packet<<to_send;
     sf::Socket::Status status=socket.send(packet);
     if(!has_done(status))
+    {
+        has_connected=false;
         std::cout<<"COULD NOT SEND PACKET"<<std::endl;
+    }
 }
 Connection::~Connection()
 {

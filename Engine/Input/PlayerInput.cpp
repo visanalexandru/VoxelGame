@@ -9,8 +9,10 @@ PlayerInput::PlayerInput(GLFWwindow*context,Camera&player_camera_in,ChunkManager
     context_window=context;
     last_time=glfwGetTime();
     glfwGetCursorPos(context,&lastX,&lastY);
+    glfwSetKeyCallback(context,key_callbacks);
     sensitivity=0.05f;
 }
+unsigned PlayerInput::held_block=1;
 void PlayerInput::process_input()
 {
     GraphicsUtil::poll_events();
@@ -50,14 +52,6 @@ float PlayerInput::get_delta_time()
     last_time=now;
     return to_return;
 }
-void PlayerInput::check_callbacks()
-{
-    if(glfwGetKey(context_window,GLFW_KEY_1)==GLFW_PRESS)
-        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-    if(glfwGetKey(context_window,GLFW_KEY_2)==GLFW_PRESS)
-        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
-}
 void PlayerInput::game_input()
 {
     bool left_click = glfwGetMouseButton(context_window, GLFW_MOUSE_BUTTON_LEFT);
@@ -79,6 +73,24 @@ void PlayerInput::game_input()
         }
     }
 
+}
+void PlayerInput::key_callbacks(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+    if(key==GLFW_KEY_1&&action==GLFW_PRESS)
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    if(key==GLFW_KEY_2&&action==GLFW_PRESS)
+        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    if(key==GLFW_KEY_Q&&action==GLFW_PRESS)
+    {
+        if(held_block>1)
+            held_block--;
+    }
+    if(key==GLFW_KEY_E&&action==GLFW_PRESS)
+    {
+        if(held_block<6)
+            held_block++;
+
+    }
 }
 void PlayerInput::raycast_break()
 {
@@ -119,7 +131,7 @@ void PlayerInput::raycast_place()
             {
                 if(ChunkConstants::is_inside(last_position.y) &&last_chunk)
                 {
-                    last_chunk->set_block_at_client(last_position.x,last_position.y,last_position.z,BlockId::Dirt_block);
+                    last_chunk->set_block_at_client(last_position.x,last_position.y,last_position.z,(BlockId)held_block);
                 }
                 break;
             }
@@ -130,7 +142,6 @@ void PlayerInput::raycast_place()
 }
 void PlayerInput::move_camera()
 {
-    check_callbacks();
     float delta_time=get_delta_time();
     float cameraSpeed = player_camera.camera_speed*delta_time;
     glm::vec3 cameraPos=player_camera.get_position();
