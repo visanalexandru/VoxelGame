@@ -13,6 +13,7 @@ public:
     AABB(Vec3 positionin, Vec3 dimensionin);
     glm::vec3 getVN(const glm::vec3& normal) const;
     glm::vec3 getVP(const glm::vec3& normal)const ;
+    glm::vec3 get_dimension()const;
     virtual ~AABB();
 protected:
     Vec3 AABB_position;

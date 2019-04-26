@@ -1,7 +1,8 @@
 #include "PlayerInput.h"
 
 PlayerInput::PlayerInput(GLFWwindow*context,Camera&player_camera_in,ChunkManager&world):player_camera(player_camera_in),
-    chunk_manager(world)
+    chunk_manager(world),
+    box_collider(AABB(glm::vec3(0,0,0),glm::vec3(1,1,1)),world)
 {
     //ctor
     last_time_pressed_mouse1=glfwGetTime();
@@ -147,16 +148,18 @@ void PlayerInput::move_camera()
     glm::vec3 cameraPos=player_camera.get_position();
     glm::vec3 cameraFront=player_camera.cameraFront;
     glm::vec3 cameraUp=player_camera.cameraUp;
+    glm::vec3 speed(0);
     if(glfwGetKey(context_window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
         cameraSpeed/=5;
     if (glfwGetKey(context_window, GLFW_KEY_W) == GLFW_PRESS)
-        cameraPos += cameraSpeed * cameraFront;
+        speed += cameraSpeed * cameraFront;
     if (glfwGetKey(context_window, GLFW_KEY_S) == GLFW_PRESS)
-        cameraPos -= cameraSpeed * cameraFront;
+        speed -= cameraSpeed * cameraFront;
     if (glfwGetKey(context_window, GLFW_KEY_A) == GLFW_PRESS)
-        cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+        speed -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
     if (glfwGetKey(context_window, GLFW_KEY_D) == GLFW_PRESS)
-        cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+        speed += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+    box_collider.fix_speed(cameraPos,speed);
     player_camera.set_position(cameraPos);
 
 }

@@ -19,6 +19,20 @@ const bool ChunkConstants::can_be_hit[7]
     true,
     true
 };
+const bool ChunkConstants::does_collide[7]
+{
+    false,
+    true,
+    true,
+    true,
+    false,
+    true,
+    true
+};
+bool ChunkConstants::can_collide(BlockId block)
+{
+    return does_collide[(int)block];
+}
 bool ChunkConstants::is_block_transparent(BlockId block)
 {
     int index=(int)block;

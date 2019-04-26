@@ -23,8 +23,10 @@ public:
     static bool can_block_be_hit(BlockId block);
     static bool is_inside(int yposition);
     static bool is_inside(int x,int y,int z);
+    static bool can_collide(BlockId block);
 private:
     static const bool transparency[7];
     static const bool can_be_hit[7];
+    static const bool does_collide[7];
 };
 #endif // CHUNKCONSTANTS_H

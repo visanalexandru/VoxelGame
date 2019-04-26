@@ -4,6 +4,7 @@
 #include"../Camera/Camera.h"
 #include"../../Game/Chunk/ChunkManager.h"
 #include"../../Game/Ray/Ray.h"
+#include"../../Game/Collider/Collider.h"
 class PlayerInput
 {
 public:
@@ -34,6 +35,7 @@ private:
     void move_camera();
     void rotate_camera();
     void update_camera_frustum();
+    Collider box_collider;
 };
 
 #endif // PLAYERINPUT_H

@@ -26,9 +26,11 @@ glm::vec3 AABB::getVN(const glm::vec3& normal) const
     }
     return res;
 }
+glm::vec3 AABB::get_dimension()const
+{
+    return dimensions;
 
-
-
+}
 glm::vec3 AABB::getVP(const glm::vec3& normal)const
 {
     glm::vec3 res = AABB_position;
