@@ -147,21 +147,41 @@ void PlayerInput::move_camera()
     float cameraSpeed = player_camera.camera_speed*delta_time;
     glm::vec3 cameraPos=player_camera.get_position();
     glm::vec3 cameraFront=player_camera.cameraFront;
+    glm::vec3 down=glm::vec3(0,-1,0);
+    cameraFront.y=0;
+    cameraFront=glm::normalize(cameraFront);
+
     glm::vec3 cameraUp=player_camera.cameraUp;
     glm::vec3 speed(0);
+
     if(glfwGetKey(context_window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
         cameraSpeed/=5;
-    if (glfwGetKey(context_window, GLFW_KEY_W) == GLFW_PRESS)
+
+    if (is_pressed(GLFW_KEY_W))
         speed += cameraSpeed * cameraFront;
-    if (glfwGetKey(context_window, GLFW_KEY_S) == GLFW_PRESS)
+
+    if (is_pressed(GLFW_KEY_S))
         speed -= cameraSpeed * cameraFront;
-    if (glfwGetKey(context_window, GLFW_KEY_A) == GLFW_PRESS)
+
+    if (is_pressed(GLFW_KEY_A))
         speed -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
-    if (glfwGetKey(context_window, GLFW_KEY_D) == GLFW_PRESS)
+
+    if (is_pressed(GLFW_KEY_D))
         speed += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+
+    if (is_pressed(GLFW_KEY_LEFT_SHIFT))
+        speed += cameraSpeed*down;
+
+    if (is_pressed(GLFW_KEY_SPACE))
+        speed -= cameraSpeed*down;
+
     box_collider.fix_speed(cameraPos,speed);
     player_camera.set_position(cameraPos);
 
+}
+bool PlayerInput::is_pressed(int key)
+{
+    return glfwGetKey(context_window,key)==GLFW_PRESS;
 }
 PlayerInput::~PlayerInput()
 {

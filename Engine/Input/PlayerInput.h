@@ -36,6 +36,7 @@ private:
     void rotate_camera();
     void update_camera_frustum();
     Collider box_collider;
+    bool is_pressed(int key);
 };
 
 #endif // PLAYERINPUT_H
