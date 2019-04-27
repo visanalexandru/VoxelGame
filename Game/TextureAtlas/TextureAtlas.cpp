@@ -22,6 +22,10 @@ glm::vec2 TextureAtlas::get_origin_coords(BlockId block,int face)
         return glm::vec2(4,15);
     case BlockId::Leaf_block:
         return glm::vec2(6,15);
+    case BlockId::Wooden_plank:
+        return glm::vec2(4,14);
+    case BlockId::Stone_brick:
+        return glm::vec2(1,14);
     default:
         return glm::vec2(10,10);
     }

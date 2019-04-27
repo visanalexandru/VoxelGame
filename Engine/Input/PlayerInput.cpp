@@ -88,7 +88,7 @@ void PlayerInput::key_callbacks(GLFWwindow* window, int key, int scancode, int a
     }
     if(key==GLFW_KEY_E&&action==GLFW_PRESS)
     {
-        if(held_block<6)
+        if(held_block<ChunkConstants::how_many_blocks-1)
             held_block++;
 
     }

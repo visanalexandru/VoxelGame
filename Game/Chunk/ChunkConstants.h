@@ -10,7 +10,9 @@ enum class BlockId:byte
     Sand_block=3,
     Water_block=4,
     Wood_block=5,
-    Leaf_block=6
+    Leaf_block=6,
+    Wooden_plank=7,
+    Stone_brick=8
 };
 class ChunkConstants
 {
@@ -24,9 +26,10 @@ public:
     static bool is_inside(int yposition);
     static bool is_inside(int x,int y,int z);
     static bool can_collide(BlockId block);
+    static const int how_many_blocks=9;
 private:
-    static const bool transparency[7];
-    static const bool can_be_hit[7];
-    static const bool does_collide[7];
+    static const bool transparency[how_many_blocks];
+    static const bool can_be_hit[how_many_blocks];
+    static const bool does_collide[how_many_blocks];
 };
 #endif // CHUNKCONSTANTS_H

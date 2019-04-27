@@ -1,5 +1,5 @@
 #include"ChunkConstants.h"
-const bool ChunkConstants::transparency[7]
+const bool ChunkConstants::transparency[ChunkConstants::how_many_blocks]
 {
     true,
     false,
@@ -7,9 +7,23 @@ const bool ChunkConstants::transparency[7]
     false,
     true,
     false,
+    true,
+    false,
+    false
+};
+const bool ChunkConstants::can_be_hit[ChunkConstants::how_many_blocks]
+{
+    false,
+    true,
+    true,
+    true,
+    false,
+    true,
+    true,
+    true,
     true
 };
-const bool ChunkConstants::can_be_hit[7]
+const bool ChunkConstants::does_collide[ChunkConstants::how_many_blocks]
 {
     false,
     true,
@@ -17,15 +31,7 @@ const bool ChunkConstants::can_be_hit[7]
     true,
     false,
     true,
-    true
-};
-const bool ChunkConstants::does_collide[7]
-{
-    false,
     true,
-    true,
-    true,
-    false,
     true,
     true
 };
