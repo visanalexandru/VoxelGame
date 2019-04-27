@@ -1,9 +1,11 @@
 #include "ChunkManager.h"
 #include<string>
 #include<sstream>
-ChunkManager::ChunkManager(const ShaderProgram&chunk_sh,const Texture2d&chunk_t,Camera&player_cam,int v_range,Connection&connection):chunk_shader(chunk_sh),
+ChunkManager::ChunkManager(const ShaderProgram&chunk_sh,const ShaderProgram&water_sh,const Texture2d&chunk_t,Camera&player_cam,int v_range,Connection&connection):chunk_shader(chunk_sh),
+    w_shader(water_sh),
     chunk_texture(chunk_t),
-    scene(chunk_t,chunk_sh),
+    chunk_scene(chunk_t,chunk_sh),
+    water_scene(chunk_t,water_sh),
     player_camera(player_cam),
     tick_time_ms(20),
     server_connnection(connection)
@@ -143,20 +145,27 @@ void ChunkManager::destroy_chunks_out_of_range()
     unlock();
 
 }
-const Scene&ChunkManager::get_scene()
+const Scene&ChunkManager::get_chunk_scene()
 {
-    scene.clear_scene();
+    chunk_scene.clear_scene();
     for (unsigned i=0; i<chunks.size(); i++)
     {
-        scene.add_drawable(*chunks[i]);
+        chunk_scene.add_drawable(*chunks[i]);
     }
-    for (unsigned i=0; i<chunks.size(); i++)
-    {
-        scene.add_drawable(chunks[i]->get_water_obj());
-    }
-    return scene;
+    return chunk_scene;
 
 }
+const Scene&ChunkManager::get_water_scene()
+{
+    water_scene.clear_scene();
+    for (unsigned i=0; i<chunks.size(); i++)
+    {
+        water_scene.add_drawable(chunks[i]->get_water_obj());
+    }
+    return water_scene;
+
+}
+
 void ChunkManager::spawn_closest_chunk()
 {
     int smallest_distance=99999,dist;
@@ -218,7 +227,7 @@ void ChunkManager::spawn_chunk(glm::vec3 position)
     Chunk*n[4];
     for(int i=0; i<4; i++)
         n[i]=get_chunk_at(position+offsets[i]);
-    Chunk* to_add=new Chunk(position,chunk_shader,chunk_texture,n,server_connnection);
+    Chunk* to_add=new Chunk(position,chunk_shader,w_shader,chunk_texture,n,server_connnection);
     lock();
     chunk_map[position]=to_add;
     to_add->update_neighbours();

@@ -38,10 +38,11 @@ class ChunkManager
 {
 public:
 
-    ChunkManager(const ShaderProgram&chunk_sh,const Texture2d&chunk_t,Camera&player_cam,int v_range,Connection&connection);
+    ChunkManager(const ShaderProgram&chunk_sh,const ShaderProgram&water_sh,const Texture2d&chunk_t,Camera&player_cam,int v_range,Connection&connection);
     virtual ~ChunkManager();
     void create_meshes();
-    const Scene&get_scene();
+    const Scene&get_chunk_scene();
+    const Scene&get_water_scene();
     void lock();
     void unlock();
     void destroy_chunks_out_of_range();
@@ -63,11 +64,13 @@ private:
     void spawn_chunk(glm::vec3 position);
     int view_range;
     const ShaderProgram&chunk_shader;
+    const ShaderProgram&w_shader;
     const Texture2d&chunk_texture;
     unordered_map<glm::vec3,Chunk*>chunk_map;
     vector<Chunk*>chunks;
     string get_string(glm::vec3 pos);
-    Scene scene;
+    Scene chunk_scene;
+    Scene water_scene;
     Camera&player_camera;
     static glm::vec3 offsets[4];
     std::thread* worker;

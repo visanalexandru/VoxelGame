@@ -17,6 +17,7 @@ public:
     void use_program() const;
     void delete_program();
     void set_mat4(glm::mat4 to_set,string& name) const;
+    void set_float(float to_set,string& name) const;
 protected:
 
 private:

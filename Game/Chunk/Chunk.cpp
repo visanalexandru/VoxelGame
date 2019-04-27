@@ -9,9 +9,9 @@ glm::vec3 Chunk::offsets[6]
     glm::vec3(0,1,0),
     glm::vec3(0,-1,0),
 };
-Chunk::Chunk(glm::vec3 pos,const ShaderProgram&pr,const Texture2d&te,Chunk*neighbours[4],Connection&connection):Drawable3d(pos,pr,te),
+Chunk::Chunk(glm::vec3 pos,const ShaderProgram&pr,const ShaderProgram&w,const Texture2d&te,Chunk*neighbours[4],Connection&connection):Drawable3d(pos,pr,te),
     generator(pos,0,p),
-    Water_obj(pos,pr,te),
+    Water_obj(pos,w,te),
     sv_connection(connection)
 {
     //ctor

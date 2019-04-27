@@ -33,10 +33,13 @@ void Collider::collide(glm::vec3&position,glm::vec3 speed)
                 {
                     glm::vec3 converted=pos-fixed;
                     Chunk*x=manager.get_chunk_at(fixed);
-                    BlockId new_block=x->get_block_at((int)(converted.x),(int)(converted.y),(int)(converted.z));
-                    if(ChunkConstants::can_collide(new_block))
+                    if(ChunkConstants::is_inside(converted.y))
                     {
-                        handle_collision(position,glm::vec3(p,q,r),speed);
+                        BlockId new_block=x->get_block_at((int)(converted.x),(int)(converted.y),(int)(converted.z));
+                        if(ChunkConstants::can_collide(new_block))
+                        {
+                            handle_collision(position,glm::vec3(p,q,r),speed);
+                        }
                     }
                 }
             }

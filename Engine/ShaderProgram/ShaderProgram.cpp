@@ -46,6 +46,11 @@ void ShaderProgram::set_mat4(glm::mat4 to_set,std::string& name) const
     int modelLoc = glGetUniformLocation(shader_program_index, name.c_str());
     glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(to_set));
 }
+void ShaderProgram::set_float(float to_set,std::string& name) const
+{
+    int modelLoc = glGetUniformLocation(shader_program_index, name.c_str());
+    glUniform1f(modelLoc, to_set);
+}
 
 ShaderProgram::~ShaderProgram()
 {

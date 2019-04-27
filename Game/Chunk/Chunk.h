@@ -10,7 +10,7 @@
 class Chunk:public Drawable3d
 {
 public:
-    Chunk(glm::vec3 pos,const ShaderProgram&p,const Texture2d&t,Chunk*neighbours[4],Connection&connection);
+    Chunk(glm::vec3 pos,const ShaderProgram&p,const ShaderProgram&w,const Texture2d&t,Chunk*neighbours[4],Connection&connection);
     virtual ~Chunk();
     void create_mesh_data();
     void assign_mesh_data();

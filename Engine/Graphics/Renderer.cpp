@@ -5,18 +5,6 @@ Renderer::Renderer(GLFWwindow*context,Camera&camera):main_camera(camera)
     //ctor
     context_window=context;
 }
-void Renderer::Render_no_binding(Drawable3d&to_draw)
-{
-    if(main_camera.can_see(to_draw) )
-    {
-        const Mesh&mesh=to_draw.Get_mesh();
-        vertices_rendered+=mesh.Get_vertices_size();
-        mesh.bind_mesh(false);
-        Set_mvp(mesh.Get_shader(),to_draw.Get_position_matrix(),camera_view_matrix,main_camera.getProjectionMatrix());
-        glDrawElements(GL_TRIANGLES, mesh.Get_triangles_size(), GL_UNSIGNED_INT,(void*)0);
-    }
-
-}
 void Renderer::Set_Camera(Camera&newcamera)
 {
     main_camera=newcamera;
@@ -28,24 +16,46 @@ void Renderer::Set_mvp(const ShaderProgram&prog,glm::mat4 m,glm::mat4 v,glm::mat
     prog.set_mat4(m,model);
 
 }
-void Renderer::Render(const Drawable3d&to_draw)
+void Renderer::Render(const Drawable3d&to_draw,bool bind_resources)
 {
     if(main_camera.can_see(to_draw) )
     {
         const Mesh&mesh=to_draw.Get_mesh();
         vertices_rendered+=mesh.Get_vertices_size();
-        mesh.bind_mesh(true);
+        mesh.bind_mesh(bind_resources);
         Set_mvp(mesh.Get_shader(),to_draw.Get_position_matrix(),camera_view_matrix,main_camera.getProjectionMatrix());
         glDrawElements(GL_TRIANGLES, mesh.Get_triangles_size(), GL_UNSIGNED_INT,(void*)0);
     }
-
+}
+void Renderer::Render_water(const Drawable3d&to_draw,bool bind_resources)
+{
+    if(main_camera.can_see(to_draw) )
+    {
+        glDisable(GL_CULL_FACE);
+        const Mesh&mesh=to_draw.Get_mesh();
+        const ShaderProgram&prog=mesh.Get_shader();
+        vertices_rendered+=mesh.Get_vertices_size();
+        mesh.bind_mesh(bind_resources);
+        Set_mvp(prog,to_draw.Get_position_matrix(),camera_view_matrix,main_camera.getProjectionMatrix());
+        prog.set_float(glfwGetTime(),timex);
+        glDrawElements(GL_TRIANGLES, mesh.Get_triangles_size(), GL_UNSIGNED_INT,(void*)0);
+        glEnable(GL_CULL_FACE);
+    }
 }
 void Renderer::Render_scene(const Scene&scene)
 {
     scene.bind_resources();
     int si=scene.to_draw.size();
     for(int i=0; i<si; i++)
-        Render(*scene.to_draw[i]);
+        Render(*scene.to_draw[i],false);
+
+}
+void Renderer::Render_water_scene(const Scene&scene)
+{
+    scene.bind_resources();
+    int si=scene.to_draw.size();
+    for(int i=0; i<si; i++)
+        Render_water(*scene.to_draw[i],false);
 
 }
 void Renderer::Render(const Drawable2d&to_draw)
