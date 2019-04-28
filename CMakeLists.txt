@@ -1,0 +1,121 @@
+cmake_minimum_required(VERSION 3.13)
+project(mc)
+
+set(CMAKE_CXX_STANDARD 14)
+
+include_directories(Engine/AABB)
+include_directories(Engine/Camera)
+include_directories(Engine/ConfigParser)
+include_directories(Engine/Drawable)
+include_directories(Engine/FileReader)
+include_directories(Engine/FpsCounter)
+include_directories(Engine/Graphics)
+include_directories(Engine/Input)
+include_directories(Engine/Mesh)
+include_directories(Engine/MeshData)
+include_directories(Engine/ModelLoader)
+include_directories(Engine/Noise)
+include_directories(Engine/ResourceManager)
+include_directories(Engine/Scene)
+include_directories(Engine/Shader)
+include_directories(Engine/ShaderProgram)
+include_directories(Engine/Skybox)
+include_directories(Engine/Texture)
+include_directories(Engine/Transformable)
+include_directories(Engine/Vertex)
+include_directories(Game)
+include_directories(Game/Chunk)
+include_directories(Game/ChunkData)
+include_directories(Game/Collider)
+include_directories(Game/Network)
+include_directories(Game/Ray)
+include_directories(Game/TextureAtlas)
+
+add_executable(mc
+        Engine/AABB/AABB.cpp
+        Engine/AABB/AABB.h
+        Engine/Camera/Camera.cpp
+        Engine/Camera/Camera.h
+        Engine/Camera/Frustum.cpp
+        Engine/Camera/Frustum.h
+        Engine/ConfigParser/ConfigParser.cpp
+        Engine/ConfigParser/ConfigParser.h
+        Engine/Drawable/Drawable2d.cpp
+        Engine/Drawable/Drawable2d.h
+        Engine/Drawable/Drawable3d.cpp
+        Engine/Drawable/Drawable3d.h
+        Engine/FileReader/FileReader.cpp
+        Engine/FileReader/FileReader.h
+        Engine/FpsCounter/FpsCounter.cpp
+        Engine/FpsCounter/FpsCounter.h
+        Engine/Graphics/GraphicsUtil.cpp
+        Engine/Graphics/GraphicsUtil.h
+        Engine/Graphics/Renderer.cpp
+        Engine/Graphics/Renderer.h
+        Engine/Input/PlayerInput.cpp
+        Engine/Input/PlayerInput.h
+        Engine/Mesh/Mesh.cpp
+        Engine/Mesh/Mesh.h
+        Engine/MeshData/Buffer.cpp
+        Engine/MeshData/Buffer.h
+        Engine/MeshData/MeshData.h
+        Engine/MeshData/Meshdata_simple.cpp
+        Engine/MeshData/Meshdata_simple.h
+        Engine/ModelLoader/ModelLoader.cpp
+        Engine/ModelLoader/ModelLoader.h
+        Engine/Noise/Heightmap.h
+        Engine/Noise/NoiseGenerator.cpp
+        Engine/Noise/NoiseGenerator.h
+        Engine/Noise/NoiseParameters.cpp
+        Engine/Noise/NoiseParameters.h
+        Engine/Noise/SimplexNoise.cpp
+        Engine/Noise/SimplexNoise.h
+        Engine/ResourceManager/ResourceManager.cpp
+        Engine/ResourceManager/ResourceManager.h
+        Engine/Scene/Scene.cpp
+        Engine/Scene/Scene.h
+        Engine/Shader/FragmentShader.cpp
+        Engine/Shader/FragmentShader.h
+        Engine/Shader/Shader.cpp
+        Engine/Shader/Shader.h
+        Engine/Shader/VertexShader.cpp
+        Engine/Shader/VertexShader.h
+        Engine/ShaderProgram/ShaderProgram.cpp
+        Engine/ShaderProgram/ShaderProgram.h
+        Engine/Skybox/Skybox.cpp
+        Engine/Skybox/Skybox.h
+        Engine/Texture/stb_image.cpp
+        Engine/Texture/stb_image.h
+        Engine/Texture/Texture.cpp
+        Engine/Texture/Texture.h
+        Engine/Texture/Texture2d.cpp
+        Engine/Texture/Texture2d.h
+        Engine/Texture/Texture3d.cpp
+        Engine/Texture/Texture3d.h
+        Engine/Transformable/Transformable.cpp
+        Engine/Transformable/Transformable.h
+        Engine/Transformable/Transformable2d.cpp
+        Engine/Transformable/Transformable2d.h
+        Engine/Vertex/Vertex.h
+        Engine/glad.c
+        Game/Chunk/Chunk.cpp
+        Game/Chunk/Chunk.h
+        Game/Chunk/ChunkConstants.cpp
+        Game/Chunk/ChunkConstants.h
+        Game/Chunk/ChunkManager.cpp
+        Game/Chunk/ChunkManager.h
+        Game/Chunk/Structure_Builder.cpp
+        Game/Chunk/Structure_Builder.h
+        Game/ChunkData/Heightmap3d.h
+        Game/Collider/Collider.cpp
+        Game/Collider/Collider.h
+        Game/Network/Connection.cpp
+        Game/Network/Connection.h
+        Game/Ray/Ray.cpp
+        Game/Ray/Ray.h
+        Game/TextureAtlas/TextureAtlas.cpp
+        Game/TextureAtlas/TextureAtlas.h
+        Game/Crosshair.cpp
+        Game/Crosshair.h
+        main.cpp)
+target_link_libraries(mc pthread glfw sfml-system sfml-network dl)
