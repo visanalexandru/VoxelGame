@@ -3,6 +3,7 @@
 #include"../Graphics/GraphicsUtil.h"
 #include<iostream>
 #include"stb_image.h"
+#include<string>
 class Texture//abstract class ,different types of textures will inherit from this class
 {
 public:

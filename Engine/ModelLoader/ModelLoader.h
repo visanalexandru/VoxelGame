@@ -4,6 +4,7 @@
 #include<fstream>
 #include"../MeshData/MeshData.h"
 #include<unordered_map>
+#include<string>
 using namespace std;
 struct vertex
 {

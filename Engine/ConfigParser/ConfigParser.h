@@ -2,6 +2,7 @@
 #define CONFIGPARSER_H
 #include<fstream>
 #include<iostream>
+#include<string>
 using namespace std;
 struct window_camera_properties
 {
