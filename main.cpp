@@ -18,11 +18,12 @@ void load_all_resources(ResourceManager&manager)
     manager.load_vertex_shader("Resources/Shaders/vertex_shader2d.vert","2dvert");
     manager.load_vertex_shader("Resources/Shaders/water_shader.vert","water_vert");
     manager.load_fragment_shader("Resources/Shaders/fragment_shader.frag","basicfrag");
+    manager.load_fragment_shader("Resources/Shaders/chunk_fragment.frag","chunkfrag");
     manager.load_vertex_shader("Resources/Shaders/skybox_shader.vert","skyboxvert");
     manager.load_fragment_shader("Resources/Shaders/skybox_shader.frag","skyboxfrag");
-    manager.create_program("basicvert","basicfrag","basic_shader");
+    manager.create_program("basicvert","chunkfrag","basic_shader");
     manager.create_program("2dvert","basicfrag","basic_2dshader");
-    manager.create_program("water_vert","basicfrag","water_shader");
+    manager.create_program("water_vert","chunkfrag","water_shader");
     manager.create_program("skyboxvert","skyboxfrag","skybox_shader");
     manager.load_texture("Resources/Textures/terrain.png","test3");
     manager.load_texture("Resources/Textures/crosshair.png","crosshair");

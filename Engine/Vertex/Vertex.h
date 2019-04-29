@@ -82,13 +82,15 @@ struct byte_vertex
 {
     byte position[3];
     byte uv[2];
-    byte_vertex(glm::vec3 pos,glm::vec2 newuv)
+    byte face_index;
+    byte_vertex(glm::vec3 pos,glm::vec2 newuv,int face)
     {
         position[0]=pos.x;
         position[1]=pos.y;
         position[2]=pos.z;
         uv[0]=newuv.x;
         uv[1]=newuv.y;
+        face_index=face;
     }
     byte_vertex():position{0},uv{0}
     {
@@ -100,6 +102,8 @@ struct byte_vertex
         glEnableVertexAttribArray(0);
         glVertexAttribPointer(1, 2, GL_UNSIGNED_BYTE, GL_FALSE, sizeof(byte_vertex), (const GLvoid*)offsetof(byte_vertex, uv));
         glEnableVertexAttribArray(1);
+        glVertexAttribPointer(2, 1, GL_UNSIGNED_BYTE, GL_FALSE, sizeof(byte_vertex), (const GLvoid*)offsetof(byte_vertex, face_index));
+        glEnableVertexAttribArray(2);
     }
     glm::vec3 get_position()
     {

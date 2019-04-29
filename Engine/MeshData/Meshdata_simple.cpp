@@ -14,10 +14,10 @@ Meshdata_simple::Meshdata_simple()
 }
 void Meshdata_simple::add_face(glm::vec3 face_position,int face_index,glm::vec2 origin)
 {
-    byte_vertex v1(cube_offsets[face_index][3]+face_position,origin+glm::vec2(0,1)),
-                v2(cube_offsets[face_index][2]+face_position,origin+glm::vec2(1,1)),
-                v3(cube_offsets[face_index][1]+face_position,origin+glm::vec2(1,0)),
-                v4(cube_offsets[face_index][0]+face_position,origin);
+    byte_vertex v1(cube_offsets[face_index][3]+face_position,origin+glm::vec2(0,1),face_index),
+                v2(cube_offsets[face_index][2]+face_position,origin+glm::vec2(1,1),face_index),
+                v3(cube_offsets[face_index][1]+face_position,origin+glm::vec2(1,0),face_index),
+                v4(cube_offsets[face_index][0]+face_position,origin,face_index);
     add_triangle(v1,v2,v3);
     add_triangle(v3,v4,v1);
 
