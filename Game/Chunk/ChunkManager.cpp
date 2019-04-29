@@ -28,6 +28,7 @@ void ChunkManager::tick()
     while(is_alive)
     {
         time=glfwGetTime();
+        destroy_chunks_out_of_range();
         spawn_closest_chunk();
         get_changes_from_server();
         Update_chunks();
@@ -136,7 +137,7 @@ void ChunkManager::destroy_chunks_out_of_range()
         if(is_position_too_far(chunks[i]->get_position()))
         {
             glm::vec3 pos=chunks[i]->get_position();
-            delete chunks[i];
+            chunks_to_delete.push_back(chunks[i]);
             chunks.erase(chunks.begin()+i);
             chunk_map.erase(pos);
             i--;
@@ -165,7 +166,16 @@ const Scene&ChunkManager::get_water_scene()
     return water_scene;
 
 }
+void ChunkManager::delete_marked_chunks()
+{
+    lock();
+    for(unsigned i=0; i<chunks_to_delete.size(); i++)
+        delete chunks_to_delete[i];
+    chunks_to_delete.clear();
+    unlock();
 
+
+}
 void ChunkManager::spawn_closest_chunk()
 {
     int smallest_distance=99999,dist;

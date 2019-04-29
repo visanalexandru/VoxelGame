@@ -49,6 +49,8 @@ public:
     bool does_chunk_exists_at(glm::vec3 position);
     Chunk* get_chunk_at(glm::vec3 pos);
     glm::vec3 get_chunk_relative_position(glm::vec3 position);
+    void delete_marked_chunks();
+
 
 protected:
 
@@ -68,6 +70,7 @@ private:
     const Texture2d&chunk_texture;
     unordered_map<glm::vec3,Chunk*>chunk_map;
     vector<Chunk*>chunks;
+    vector<Chunk*>chunks_to_delete;
     string get_string(glm::vec3 pos);
     Scene chunk_scene;
     Scene water_scene;

@@ -64,7 +64,7 @@ int main()
     while(!glfwWindowShouldClose(window))
     {
         float a=glfwGetTime();
-        chunk_manager.destroy_chunks_out_of_range();
+        chunk_manager.delete_marked_chunks();
         chunk_manager.create_meshes();
         input_processer.process_input();
         renderer.Prepare_frame();
