@@ -21,11 +21,11 @@ void Collider::collide(glm::vec3&position,glm::vec3 speed)
     float a=dimensions.x;
     float b=dimensions.y;
     float c=dimensions.z;
-    for(float p=-a; p<=a; p+=1)
+    for(float p=-a; p<=a; p+=a)
     {
-        for(float q=-b; q<=b; q+=1)
+        for(float q=-b; q<=b; q+=b)
         {
-            for(float r=-c; r<=c; r+=1)
+            for(float r=-c; r<=c; r+=c)
             {
                 glm::vec3 pos=position+glm::vec3(p,q,r);
                 glm::vec3 fixed=manager.get_chunk_relative_position(pos);

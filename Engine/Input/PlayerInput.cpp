@@ -2,7 +2,7 @@
 
 PlayerInput::PlayerInput(GLFWwindow*context,Camera&player_camera_in,ChunkManager&world):player_camera(player_camera_in),
     chunk_manager(world),
-    box_collider(AABB(glm::vec3(0,0,0),glm::vec3(1,1,1)),world)
+    box_collider(AABB(glm::vec3(0,0,0),glm::vec3(0.2,1,0.2)),world)
 {
     //ctor
     last_time_pressed_mouse1=glfwGetTime();
