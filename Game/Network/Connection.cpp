@@ -39,8 +39,6 @@ const std::string Connection::receive_data()
     else
         packet>>received;
     return received;
-
-
 }
 bool Connection::is_conected()
 {

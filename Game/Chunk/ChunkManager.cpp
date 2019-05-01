@@ -283,6 +283,7 @@ void ChunkManager::spawn_chunk(glm::vec3 position)
     to_add->update_neighbours();
     chunks.push_back(to_add);
     unlock();
+    to_add->get_data_from_server();
 }
 glm::vec3 ChunkManager::get_chunk_relative_position(glm::vec3 position)
 {

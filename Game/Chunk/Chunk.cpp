@@ -19,7 +19,6 @@ Chunk::Chunk(glm::vec3 pos,const ShaderProgram&pr,const ShaderProgram&w,const Te
     needs_to_update=true;
     needs_to_assign_mesh=false;
     generator.generate_3d_heigthmap(data);
-    get_data_from_server();
 }
 void Chunk::get_data_from_server()
 {
