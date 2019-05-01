@@ -20,6 +20,11 @@ void Connection::initialize_connection(const std::string ip,int port)
         std::cout<<"COULD NOT CONNECT"<<std::endl;
     }
 }
+sf::TcpSocket&Connection::get_socket()
+{
+    return socket;
+
+}
 const std::string Connection::receive_data()
 {
     sf::Packet packet;

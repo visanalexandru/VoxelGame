@@ -77,6 +77,7 @@ private:
     Camera&player_camera;
     static glm::vec3 offsets[4];
     std::thread* worker;
+    std::thread* server_receiver;
     void start_thread();
     void stop_thread();
     void parse_response(std::string&to_parse);

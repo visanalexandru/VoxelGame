@@ -26,8 +26,6 @@ void Chunk::get_data_from_server()
     string here=" "+to_string((int)get_position().x)+" "+to_string((int)get_position().z);
     string to_request="r"+here;//we request block updates
     sv_connection.send_data(to_request);
-    string p=sv_connection.receive_data();
-    parse(p);
 }
 void Chunk::parse(const string&to_parse)
 {
@@ -35,6 +33,8 @@ void Chunk::parse(const string&to_parse)
     int id;
     stringstream stream;
     stream<<to_parse;
+    char delim;
+    stream>>delim>>x>>y;
     while(stream>>x>>y>>z>>id)
     {
         BlockId casted= static_cast<BlockId>(id);

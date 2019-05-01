@@ -30,7 +30,6 @@ void ChunkManager::tick()
         time=glfwGetTime();
         destroy_chunks_out_of_range();
         spawn_closest_chunk();
-        get_changes_from_server();
         Update_chunks();
         aux=max(((double)glfwGetTime() - time),0.0);//it might be negative if the opengl context has been destroyed
         diff =tick_time_ms-aux*1000;
@@ -42,12 +41,15 @@ void ChunkManager::start_thread()
 {
     is_alive=true;
     worker=new std::thread([this] { this->tick(); });
+    server_receiver=new std::thread([this] { this->get_changes_from_server(); });
 }
 void ChunkManager::stop_thread()
 {
     is_alive=false;
     worker->join();
+    server_receiver->join();
     delete worker;
+    delete server_receiver;
 
 }
 void ChunkManager::Update_chunk(Chunk*chunk)
@@ -95,15 +97,53 @@ Chunk*ChunkManager::get_chunk_at(glm::vec3 pos)
 }
 void ChunkManager::get_changes_from_server()
 {
-    server_connnection.send_data("p");
-    string received=server_connnection.receive_data();
-    parse_response(received);
+    sf::SocketSelector selector;
+    selector.add(server_connnection.get_socket());
+    char p;
+    int x,y;
+    string a;
+    while(is_alive)
+    {
+        if(selector.wait(sf::seconds(1.f)))
+        {
+            if(selector.isReady(server_connnection.get_socket()))
+            {
+                a=server_connnection.receive_data();
+                stringstream parser;
+                parser<<a;
+                parser>>p;
+                switch(p)
+                {
+                case 'r':
+                {
+                    parser>>x>>y;
+                    glm::vec3 pos(x,0,y);
+                    if(does_chunk_exists_at(pos))
+                    {
+                        Chunk*to_update=get_chunk_at(pos);
+                        lock();
+                        to_update->parse(a);
+                        unlock();
+                    }
+                    break;
+                }
+                case 's':
+                {
+                    parse_response(a);
+                    break;
+                }
+                }
+            }
+        }
+    }
 }
 void ChunkManager::parse_response(std::string&to_parse)
 {
     stringstream parser;
+    char delim;
     parser<<to_parse;
     glm::vec3 pos;
+    parser>>delim;
     int x,y,z,block;
     Chunk*aux;
     while(parser>>x>>y>>z>>block)

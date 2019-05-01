@@ -29,6 +29,7 @@ public:
     void mark_for_update();
     const Drawable3d&get_water_obj();
     void get_data_from_server();
+    void parse(const string&to_parse);
 protected:
 
 private:
@@ -51,7 +52,6 @@ private:
     Drawable3d Water_obj;
     Connection&sv_connection;
     string vec_to_string(int x,int y,int z);
-    void parse(const string&to_parse);
 };
 
 #endif // CHUNK_H
