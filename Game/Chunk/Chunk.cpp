@@ -144,6 +144,7 @@ string Chunk::vec_to_string(int x,int y,int z)
 }
 void Chunk::set_block_at_client(int x,int y,int z,BlockId to_set)
 {
+    mutex_lock.lock();
     int casted=(int)to_set;
     int x2=get_position().x,z2=get_position().z;
     string to_send="s "+vec_to_string(x+x2,y,z+z2)+" "+to_string(casted);
@@ -151,7 +152,7 @@ void Chunk::set_block_at_client(int x,int y,int z,BlockId to_set)
     data.set_value_at(x,y,z,to_set);
     update_neighbours_at(x,y,z);
     needs_to_update=true;
-
+    mutex_lock.unlock();
 }
 void Chunk::update_neighbours_at(int x,int y,int z)
 {
@@ -176,12 +177,14 @@ void Chunk::update_neighbours_at(int x,int y,int z)
 }
 void Chunk::set_block_at_server(int x,int y,int z,BlockId to_set)
 {
+    mutex_lock.lock();
     if(data.get_value_at(x,y,z)!=to_set)
     {
         data.set_value_at(x,y,z,to_set);
         update_neighbours_at(x,y,z);
         needs_to_update=true;
     }
+    mutex_lock.unlock();
 }
 void Chunk::set_neighbours(Chunk*c1,Chunk*c2,Chunk*c3,Chunk*c4)
 {
@@ -208,6 +211,7 @@ void Chunk::set_n_up(Chunk*c1)
 }
 void Chunk::create_mesh_data()
 {
+    mutex_lock.lock();
     if(has_all_neighbours())
     {
         meshdata.clear_data();
@@ -229,6 +233,7 @@ void Chunk::create_mesh_data()
         needs_to_update=false;
         needs_to_assign_mesh=true;
     }
+    mutex_lock.unlock();
 }
 const Drawable3d&Chunk::get_water_obj()
 {
@@ -236,9 +241,11 @@ const Drawable3d&Chunk::get_water_obj()
 }
 void Chunk::assign_mesh_data()
 {
+    mutex_lock.lock();
     set_mesh_data(meshdata);
     Water_obj.set_mesh_data(water_meshdata);
     needs_to_assign_mesh=false;
+    mutex_lock.unlock();
 }
 Chunk::~Chunk()
 {

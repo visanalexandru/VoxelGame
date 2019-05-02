@@ -70,10 +70,8 @@ int main()
         input_processer.process_input();
         renderer.Prepare_frame();
         renderer.Render(sky);
-        chunk_manager.lock();
         renderer.Render_scene(chunk_manager.get_chunk_scene());
         renderer.Render_water_scene(chunk_manager.get_water_scene());
-        chunk_manager.unlock();
         renderer.Render(crosshair);
         renderer.End_frame();
     }

@@ -7,6 +7,7 @@
 #include"../ChunkData/Heightmap3d.h"
 #include"../TextureAtlas/TextureAtlas.h"
 #include"../Game/Network/Connection.h"
+#include<mutex>
 class Chunk:public Drawable3d
 {
 public:
@@ -52,6 +53,7 @@ private:
     Drawable3d Water_obj;
     Connection&sv_connection;
     string vec_to_string(int x,int y,int z);
+    mutex mutex_lock;
 };
 
 #endif // CHUNK_H

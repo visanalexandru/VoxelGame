@@ -121,9 +121,7 @@ void ChunkManager::get_changes_from_server()
                     if(does_chunk_exists_at(pos))
                     {
                         Chunk*to_update=get_chunk_at(pos);
-                        lock();
                         to_update->parse(a);
-                        unlock();
                     }
                     break;
                 }
@@ -156,9 +154,7 @@ void ChunkManager::parse_response(std::string&to_parse)
             int x2=(int)(x-fixed.x);
             int y2=(int)y;
             int z2=(int)(z-fixed.z);
-            lock();
             aux->set_block_at_server(x2,y2,z2,(BlockId)block);
-            unlock();
         }
     }
 }
@@ -188,21 +184,25 @@ void ChunkManager::destroy_chunks_out_of_range()
 }
 const Scene&ChunkManager::get_chunk_scene()
 {
+    lock();
     chunk_scene.clear_scene();
     for (unsigned i=0; i<chunks.size(); i++)
     {
         chunk_scene.add_drawable(*chunks[i]);
     }
+    unlock();
     return chunk_scene;
 
 }
 const Scene&ChunkManager::get_water_scene()
 {
+    lock();
     water_scene.clear_scene();
     for (unsigned i=0; i<chunks.size(); i++)
     {
         water_scene.add_drawable(chunks[i]->get_water_obj());
     }
+    unlock();
     return water_scene;
 
 }
