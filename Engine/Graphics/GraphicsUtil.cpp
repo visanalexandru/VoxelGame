@@ -13,7 +13,7 @@ void GraphicsUtil::set_main_camera(Camera*cam)
 {
     main_camera=cam;
 }
-GLFWwindow* GraphicsUtil::create_window(window_camera_properties prop)
+GLFWwindow* GraphicsUtil::create_window(program_properties prop)
 {
     string title=prop.get_title();
     GLFWwindow* window = glfwCreateWindow(prop.get_width(), prop.get_height(),title.c_str(), NULL, NULL);

@@ -1,6 +1,6 @@
 #include "Camera.h"
 
-Camera::Camera(glm::vec3 newpos, window_camera_properties prop):Transformable(newpos)
+Camera::Camera(glm::vec3 newpos, program_properties prop):Transformable(newpos)
 {
     //ctor
     camera_fov=prop.get_fov();

@@ -3,3 +3,6 @@ height 500
 fov 100
 use_vsync 1
 program_name Engine
+server_ip 192.168.0.189
+server_port 8000
+

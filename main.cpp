@@ -57,7 +57,7 @@ int main()
     Camera camera(glm::vec3(0,40,0),parsed.Get_parsed());
     GraphicsUtil::set_main_camera(&camera);
     Renderer renderer(window,camera);
-    Connection server_connection("127.0.0.1",8000);
+    Connection server_connection(parsed.Get_parsed().get_ip(),parsed.Get_parsed().get_port());
     if(!server_connection.is_conected())
         return 0;
     ChunkManager chunk_manager(basic_prog,water_prog,basic_texture,camera,15,server_connection);

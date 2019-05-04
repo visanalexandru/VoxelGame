@@ -4,10 +4,10 @@
 #include<iostream>
 #include<string>
 using namespace std;
-struct window_camera_properties
+struct program_properties
 {
 
-    window_camera_properties(int w,int h,float fovc,bool vsync,string prog)
+    program_properties(int w,int h,float fovc,bool vsync,string prog)
     {
         width=w;
         height=h;
@@ -16,13 +16,15 @@ struct window_camera_properties
         program_name=prog;
 
     }
-    window_camera_properties() //default settings
+    program_properties() //default settings
     {
         width=500;
         height=500;
         fov=100;
         use_vsync=true;
         program_name="program";
+        port=8000;
+        ip="127.0.0.1";
     }
     int get_width()
     {
@@ -60,9 +62,25 @@ struct window_camera_properties
     {
         return program_name;
     }
-    void set_title(string a)
+    void set_title(string&a)
     {
         program_name=a;
+    }
+    void set_ip(string&a)
+    {
+        ip=a;
+    }
+    string get_ip()
+    {
+        return ip;
+    }
+    void set_port(int x)
+    {
+        port=x;
+    }
+    int get_port()
+    {
+        return port;
     }
 private:
     int width;
@@ -70,6 +88,8 @@ private:
     float fov;
     bool use_vsync;
     string program_name;
+    string ip;
+    int port;
 
 };
 class ConfigParser
@@ -77,10 +97,10 @@ class ConfigParser
 public:
     ConfigParser(string path_to_config);
     virtual ~ConfigParser();
-    window_camera_properties Get_parsed();
+    program_properties Get_parsed();
 protected:
 private:
-    window_camera_properties w_properties;
+    program_properties w_properties;
     void parse(string path);
 
 };

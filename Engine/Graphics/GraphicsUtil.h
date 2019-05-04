@@ -9,7 +9,7 @@ namespace GraphicsUtil
 {
 extern Camera*main_camera;
 void initialize_glfw();
-GLFWwindow* create_window(window_camera_properties prop);
+GLFWwindow* create_window(program_properties prop);
 bool initialize_glad();
 void make_current_context(GLFWwindow*window);
 void set_viewport(int width,int height);

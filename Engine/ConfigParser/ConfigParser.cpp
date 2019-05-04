@@ -39,12 +39,22 @@ void ConfigParser::parse(string path)
             file_stream>>auxiliary;
             w_properties.set_title(auxiliary);
         }
+        else if(auxiliary=="server_ip")
+        {
+            file_stream>>auxiliary;
+            w_properties.set_ip(auxiliary);
+        }
+        else if(auxiliary=="server_port")
+        {
+            file_stream>>aux;
+            w_properties.set_port(aux);
+        }
 
     }
 
 
 }
-window_camera_properties ConfigParser::Get_parsed()
+program_properties ConfigParser::Get_parsed()
 {
     return w_properties;
 }

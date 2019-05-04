@@ -7,7 +7,7 @@
 class Camera:public Transformable
 {
 public:
-    Camera(glm::vec3 newpos,window_camera_properties prop);
+    Camera(glm::vec3 newpos,program_properties prop);
     virtual ~Camera();
     glm::mat4 getProjectionMatrix();
     glm::mat4 getViewMatrix();
