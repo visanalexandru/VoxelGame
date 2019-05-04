@@ -8,6 +8,7 @@
 #include"../TextureAtlas/TextureAtlas.h"
 #include"../Game/Network/Connection.h"
 #include<mutex>
+#include<atomic>
 class Chunk:public Drawable3d
 {
 public:
@@ -48,8 +49,8 @@ private:
     Meshdata_simple water_meshdata;
     NoiseParameters p;
     NoiseGenerator generator;
-    bool needs_to_update;
-    bool needs_to_assign_mesh;
+    atomic<bool>needs_to_update;
+    atomic<bool>needs_to_assign_mesh;
     Drawable3d Water_obj;
     Connection&sv_connection;
     string vec_to_string(int x,int y,int z);

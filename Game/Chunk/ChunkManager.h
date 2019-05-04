@@ -58,7 +58,7 @@ private:
     void spawn_closest_chunk();
     void Update_chunks();
     std::mutex mutex_lock;
-    bool is_alive;
+    atomic<bool>is_alive;
     void tick();
     void Update_chunk(Chunk*chunk);
     void delete_all_chunks();
