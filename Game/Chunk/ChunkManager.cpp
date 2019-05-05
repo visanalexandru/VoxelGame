@@ -76,13 +76,11 @@ void ChunkManager::Update_chunks()
 {
     for(unsigned i=0; i<chunks.size(); i++)
     {
-        lock();
         Chunk*here=chunks[i];
         if(here->does_need_to_upate_chunk())
         {
             Update_chunk(here);
         }
-        unlock();
     }
 }
 Chunk*ChunkManager::get_chunk_at(glm::vec3 pos)
