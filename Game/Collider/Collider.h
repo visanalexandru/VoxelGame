@@ -6,11 +6,11 @@
 class Collider
 {
 public:
-    Collider(const AABB player_box,ChunkManager&manager);
+    Collider(const glm::vec3 player_dimensions,ChunkManager&manager);
     virtual ~Collider();
     void fix_speed(glm::vec3&camera_position,glm::vec3&speed);
 protected:
-    const AABB player_aabb;
+    const glm::vec3 player_dimensions;
     ChunkManager&manager;
     void collide(glm::vec3&position,glm::vec3 speed);
     void handle_collision(glm::vec3&position,glm::vec3 offset,glm::vec3 speed);

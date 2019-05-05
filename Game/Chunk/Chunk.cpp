@@ -62,13 +62,13 @@ void Chunk::update_neighbours()
 void Chunk::dereference_chunk_from_neighbours()
 {
     if(n_down)
-        n_down->set_n_up(NULL);
+        n_down->set_n_up(nullptr);
     if(n_up)
-        n_up->set_n_down(NULL);
+        n_up->set_n_down(nullptr);
     if(n_left)
-        n_left->set_n_right(NULL);
+        n_left->set_n_right(nullptr);
     if(n_right)
-        n_right->set_n_left(NULL);
+        n_right->set_n_left(nullptr);
 }
 bool Chunk::is_inside(int x,int y,int z)
 {

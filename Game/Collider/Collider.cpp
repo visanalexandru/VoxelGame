@@ -1,6 +1,6 @@
 #include "Collider.h"
 #include<cmath>
-Collider::Collider(const AABB player_box,ChunkManager&c_manager):player_aabb(player_box),
+Collider::Collider(const glm::vec3 player_dim,ChunkManager&c_manager):player_dimensions(player_dim),
     manager(c_manager)
 
 {
@@ -17,10 +17,9 @@ void Collider::fix_speed(glm::vec3&camera_position,glm::vec3&speed)
 }
 void Collider::collide(glm::vec3&position,glm::vec3 speed)
 {
-    glm::vec3 dimensions=player_aabb.get_dimension();
-    float a=dimensions.x;
-    float b=dimensions.y;
-    float c=dimensions.z;
+    float a=player_dimensions.x;
+    float b=player_dimensions.y;
+    float c=player_dimensions.z;
     for(float p=-a; p<=a; p+=a)
     {
         for(float q=-b; q<=b; q+=b)
@@ -49,10 +48,9 @@ void Collider::collide(glm::vec3&position,glm::vec3 speed)
 
 void Collider::handle_collision(glm::vec3&position,glm::vec3 offset,glm::vec3 speed)
 {
-    glm::vec3 dimensions=player_aabb.get_dimension();
-    float a=dimensions.x;
-    float b=dimensions.y;
-    float c=dimensions.z;
+    float a=player_dimensions.x;
+    float b=player_dimensions.y;
+    float c=player_dimensions.z;
     if(speed.x>0)
     {
         position.x=floor(position.x+offset.x)-a-error;
